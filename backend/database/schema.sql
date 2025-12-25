@@ -1,10 +1,10 @@
-CREATE DATABASE hospital_db
-USE hospital_db
+CREATE DATABASE hospital_db;
+USE hospital_db;
 
 CREATE TABLE roles (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(50) UNIQUE NOT NULL,
-)
+  name VARCHAR(50) UNIQUE NOT NULL
+);
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -16,12 +16,12 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (role_id) REFERENCES roles(id)
-)
+);
 
 CREATE TABLE departments (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) UNIQUE NOT NULL
-)
+);
 
 CREATE TABLE doctors (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -32,7 +32,7 @@ CREATE TABLE doctors (
 
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (department_id) REFERENCES departments(id)
-)
+);
 
 CREATE TABLE patients (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -42,7 +42,7 @@ CREATE TABLE patients (
   phone VARCHAR(20),
   address TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 CREATE TABLE appointments (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -54,7 +54,7 @@ CREATE TABLE appointments (
 
   FOREIGN KEY (patient_id) REFERENCES patients(id),
   FOREIGN KEY (doctor_id) REFERENCES doctors(id)
-)
+);
 
 CREATE TABLE medical_records (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -65,7 +65,7 @@ CREATE TABLE medical_records (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (appointment_id) REFERENCES appointments(id)
-)
+);
 
 CREATE TABLE bills (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -75,4 +75,4 @@ CREATE TABLE bills (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (patient_id) REFERENCES patients(id)
-)
+);
