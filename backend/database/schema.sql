@@ -76,3 +76,9 @@ CREATE TABLE bills (
 
   FOREIGN KEY (patient_id) REFERENCES patients(id)
 );
+
+INSERT INTO roles (name) VALUES
+('admin'),
+('doctor'),
+('nurse'),
+('receptionist');
