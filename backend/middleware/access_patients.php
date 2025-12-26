@@ -1,5 +1,6 @@
 <?php
   require_once "/auth.php";
+  require_once "../config/header.php";
 
   $role = $_SESSION['user']['role'];
 

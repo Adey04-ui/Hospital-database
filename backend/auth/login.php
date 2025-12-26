@@ -1,10 +1,12 @@
 <?php 
   require_once "../config/db.php";
+  require_once "../config/header.php";
+  session_start();
   
-  $data = json_encode(file_get_contents("php://inputs"), true);
+  $data = json_decode(file_get_contents("php://input"), true);
 
-  $email = $data['email'] ?? "";
-  $password = $data["password"] ?? "";
+  $email = mysqli_real_escape_string($conn, $data['email']) ?? "";
+  $password = mysqli_real_escape_string($conn, $data["password"]) ?? "";
 
   $query = "
   SELECT users.*, roles.name AS role
@@ -16,9 +18,15 @@
 
   $result = mysqli_query($conn, $query);
 
+  if($email == null) {
+    http_response_code(401);
+    echo json_encode(["message" => "no email"]);
+    exit;
+  }
+
   if (mysqli_num_rows($result) === 0) {
     http_response_code(401);
-    echo json_encode(["message" => "Invalid credentials"]);
+    echo json_encode(["message" => "Invalid credentials, email doesnt exist '$email'"]);
     exit;
   }
 
@@ -26,7 +34,7 @@
 
   if (!password_verify($password, $user['password'])) {
     http_response_code(401);
-    echo json_encode(["message" => "Invalid credentials"]);
+    echo json_encode(["message" => "Invalid credentials, wrong password"]);
     exit;
   }
 

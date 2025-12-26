@@ -1,5 +1,6 @@
 <?php
   require_once "../middleware/admin_only.php";
+  require_once "../config/header.php";
 
   $data = json_decode(file_get_contents("php://input"), true);
 
