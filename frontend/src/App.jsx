@@ -9,16 +9,20 @@ import Dashboard from './pages/Dashboard'
 import Topbar from './components/Topbar'
 import { setUser } from './features/userSlice'
 import Loader from './components/Loader'
+import Unauthorized from './components/Unauthorized'
+import CreatePatient from './pages/CreatePatient'
 
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
+  const [user1, setUser1] = useState(null)
 
   useEffect(() => {
     const handleAuth = async () => {
       try {
         const res = await apiFetch('/auth/me.php')
+        setUser1(res.user)
         dispatch(setUser(res.user))
       } catch {
         navigate('/login')
@@ -39,8 +43,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Dashboard />} />
-        <Route path="/loader" element={<Loader />} />
-        <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/new-patient" element={<CreatePatient user={user1} />} />
+        <Route path="/loader" element={<Unauthorized />} />
+        <Route path="/book-appointment" element={<BookAppointment user={user1} />} />
       </Routes>
     </>
   )

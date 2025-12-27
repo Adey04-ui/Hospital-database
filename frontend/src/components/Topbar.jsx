@@ -20,9 +20,9 @@ function Topbar() {
       </div>
       <div className="navlinks">
         <ul>
-          <li onClick={()=> navigate('/book-apoinment')}>book apointment</li>
+          <li onClick={()=> navigate('/book-appointment')}>book apointment</li>
           <li>services</li>
-          <li>about</li>
+          <li onClick={()=> navigate('/new-patient')}>new patient</li>
           <li>doctors</li>
           <li>contact</li>
         </ul>

@@ -1,7 +1,7 @@
 <?php
+  require_once "../config/header.php";
   require_once "../middleware/auth.php";
   require_once "../config/db.php";
-  require_once "../config/header.php";
 
   $role = $_SESSION['user']['role'];
 

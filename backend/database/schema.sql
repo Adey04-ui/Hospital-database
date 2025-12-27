@@ -29,7 +29,11 @@ CREATE TABLE doctors (
   user_id INT NOT NULL,
   department_id INT NOT NULL,
   specialization VARCHAR(100),
-  available BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  shift_start TIME NOT NULL,
+  shift_end TIME NOT NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (department_id) REFERENCES departments(id)
@@ -47,10 +51,17 @@ CREATE TABLE patients (
 
 CREATE TABLE appointments (
   id INT AUTO_INCREMENT PRIMARY KEY,
+
   patient_id INT NOT NULL,
   doctor_id INT NOT NULL,
-  appointment_date DATETIME NOT NULL,
-  status ENUM('pending','completed','cancelled') DEFAULT 'pending',
+
+  appointment_date DATE NOT NULL,
+
+  window_start TIME NOT NULL,
+  window_end TIME NOT NULL,
+
+  status ENUM('scheduled', 'completed', 'cancelled') DEFAULT 'scheduled',
+
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (patient_id) REFERENCES patients(id),
@@ -76,6 +87,30 @@ CREATE TABLE bills (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   FOREIGN KEY (patient_id) REFERENCES patients(id)
+);
+
+CREATE TABLE doctor_availability (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+
+  doctor_id INT NOT NULL,
+
+  day_of_week TINYINT NOT NULL
+    COMMENT '0=Sunday, 1=Monday, ..., 6=Saturday',
+
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
+
+  CONSTRAINT chk_time_range
+    CHECK (start_time < end_time),
+
+  CONSTRAINT fk_availability_doctor
+    FOREIGN KEY (doctor_id)
+    REFERENCES doctors(id)
+    ON DELETE CASCADE
 );
 
 INSERT INTO roles (name) VALUES
