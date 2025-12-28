@@ -6,13 +6,7 @@ import Dialog from "@mui/material/Dialog"
 import DialogTitle from "@mui/material/DialogTitle"
 import DialogContent from "@mui/material/DialogContent"
 import DialogActions from "@mui/material/DialogActions"
-import { DatePicker } from "@mui/x-date-pickers/DatePicker"
-import dayjs from "dayjs"
 import Unauthorized from "../components/Unauthorized"
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import Autocomplete from "@mui/material/Autocomplete"
 
 export default function CreateDoctor({ user }) {
