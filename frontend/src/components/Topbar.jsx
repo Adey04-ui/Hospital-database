@@ -23,7 +23,7 @@ function Topbar() {
           <li onClick={()=> navigate('/book-appointment')}>book apointment</li>
           <li>services</li>
           <li onClick={()=> navigate('/new-patient')}>new patient</li>
-          <li>doctors</li>
+          <li onClick={()=> navigate('/doctors')}>doctors</li>
           <li>contact</li>
         </ul>
       </div>

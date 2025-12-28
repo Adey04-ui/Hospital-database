@@ -11,6 +11,8 @@ import { setUser } from './features/userSlice'
 import Loader from './components/Loader'
 import Unauthorized from './components/Unauthorized'
 import CreatePatient from './pages/CreatePatient'
+import Appointments from './pages/Appointments'
+import CreateDoctor from './pages/CreateDoctor'
 
 function App() {
   const dispatch = useDispatch()
@@ -44,6 +46,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/new-patient" element={<CreatePatient user={user1} />} />
+        <Route path="/appointments" element={<Appointments user={user1} />} />
+        <Route path="/doctors" element={<CreateDoctor user={user1} />} />
         <Route path="/loader" element={<Unauthorized />} />
         <Route path="/book-appointment" element={<BookAppointment user={user1} />} />
       </Routes>

@@ -78,6 +78,7 @@
   overflow: auto;
   -ms-overflow-style: none; 
   scrollbar-width: none;
+  background-color: #fff;
 }
 .full-container::-webkit-scrollbar {
   display: none;
@@ -124,4 +125,65 @@
 .bookSubmit:hover {
   background-color: #030390;
   color: #fff;
+}
+.viewAppointment {
+  padding: 13px 15px;
+  background: #030390;
+  color: #fff;
+  font-size: 16px;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.search-input {
+  padding: 11px 7px;
+  padding-left: 33px;
+  width: 290px;
+  border-radius: 7px;
+  outline: none;
+  border: 2px solid #bcbcbc;
+  height: 45px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+}
+.search-input:focus {
+  border: 2px solid #030390;
+}
+.search-input::placeholder {
+  color: #8c8c8c;
+}
+.queue-card {
+  display: flex;
+  width: 100%;
+  box-shadow: 0px 0px 6px #4d4d4d4a;
+  padding: 17px 20px;
+  border-radius: 14px;
+  justify-content: space-between;
+  place-items: center;
+  height: 100px;
+}
+.status {
+  padding: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  text-transform: capitalize;
+  color: #fff;
+  border-radius: 5px;
+}
+.status.scheduled {
+  background: #030390;
+}
+.status.completed {
+  background: #0b963bfa;
+}
+.status.cancelled {
+  background: #960b0bfa;
+}
+.actions {
+  display: flex;
+  gap: 12px;
 }
