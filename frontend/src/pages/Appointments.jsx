@@ -102,9 +102,9 @@ function Appointments({user}) {
               </span>
             </div>
             {user.role == "admin" && (
-              <div>
+              <div style={{minWidth: '170px', maxWidth: '180px'}}>
                 <span style={{fontSize: '18px', fontWeight: 500}}>
-                  {app.patient_name}
+                  {app.doctor_name}
                 </span>
               </div>
             )}

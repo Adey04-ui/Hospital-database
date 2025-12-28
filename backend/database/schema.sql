@@ -46,6 +46,7 @@ CREATE TABLE patients (
   date_of_birth DATE NOT NULL,
   phone VARCHAR(20),
   address TEXT,
+  email VARCHAR(255)
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

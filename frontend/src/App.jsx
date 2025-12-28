@@ -40,10 +40,10 @@ function App() {
 
   return (
     <>
-      <Topbar />
+      <Topbar user={user1} />
       {loading && <Loader />}
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login user={user1} />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/new-patient" element={<CreatePatient user={user1} />} />
         <Route path="/appointments" element={<Appointments user={user1} />} />

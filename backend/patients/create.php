@@ -10,8 +10,9 @@
   $date_of_birth = $data['date_of_birth'] ?? '';
   $phone         = $data['phone'] ?? '';
   $address       = $data['address'] ?? '';
+  $email         = $data['email'] ?? '';
 
-  if ($full_name === '' || $gender === '' || $date_of_birth === '') {
+  if ($full_name === '' || $gender === '' || $date_of_birth === '' || $email === '') {
     http_response_code(400);
     echo json_encode(["message" => "Missing required fields"]);
     exit;
@@ -25,8 +26,8 @@
   }
 
   $sql = "
-  INSERT INTO patients (full_name, gender, date_of_birth, phone, address)
-  VALUES ('$full_name', '$gender', '$date_of_birth', '$phone', '$address')
+  INSERT INTO patients (full_name, gender, date_of_birth, phone, address, email)
+  VALUES ('$full_name', '$gender', '$date_of_birth', '$phone', '$address', '$email')
   ";
 
   if (!mysqli_query($conn, $sql)) {

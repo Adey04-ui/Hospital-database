@@ -21,6 +21,12 @@ export default function CreatePatient({ user }) {
     date_of_birth: "",
     phone: "",
     address: "",
+    email: "",
+  })
+
+  const [mail, setMail] = useState({
+    full_name: "",
+    email: "",
   })
 
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -41,8 +47,21 @@ export default function CreatePatient({ user }) {
         body: JSON.stringify(form),
       })
 
+      const patientId = res.patient_id
+
+      const mailRes = await apiFetch("/mail/sendMail.php", {
+        method: "POST",
+        body: JSON.stringify({
+          ...mail,
+          patient_id: Number(patientId)
+        }),
+      })
+
+
       setMessage(res.message || "Patient registered successfully")
       setDialogOpen(true)
+
+      console.log(mailRes.message)
 
       // reset form
       setForm({
@@ -51,6 +70,13 @@ export default function CreatePatient({ user }) {
         date_of_birth: "",
         phone: "",
         address: "",
+        email: "",
+      })
+
+
+      setMail({
+        full_name: "",
+        email: "",
       })
     } catch (err) {
       alert(err.message || "Failed to create patient")
@@ -65,7 +91,10 @@ export default function CreatePatient({ user }) {
         <TextField
           label="Full Name"
           value={form.full_name}
-          onChange={(e) => setForm({ ...form, full_name: e.target.value })}
+          onChange={(e) => {
+            setForm({ ...form, full_name: e.target.value })
+            setMail({ ...mail, full_name: e.target.value })
+          }}
           required
           fullWidth
         />
@@ -97,7 +126,17 @@ export default function CreatePatient({ user }) {
         />
 
         <TextField
-          label="Phone Number"
+          label="Email"
+          value={form.email}
+          onChange={(e) => {
+            setForm({ ...form, email: e.target.value })
+            setMail({ ...mail, email: e.target.value })
+          }}
+          fullWidth
+        />
+
+        <TextField
+          label="Phone number"
           value={form.phone}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
           fullWidth

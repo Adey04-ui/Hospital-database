@@ -4,7 +4,7 @@ import { apiFetch } from '../services/api'
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../features/userSlice'
 
-function Topbar() {
+function Topbar({user}) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   function handleLogout() {
@@ -28,7 +28,7 @@ function Topbar() {
         </ul>
       </div>
       <div className="logout">
-        <button onClick={handleLogout}>log out</button>
+        <button onClick={handleLogout}>{user && 'log out'}</button>
       </div>
     </nav>
   )

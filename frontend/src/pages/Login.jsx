@@ -3,8 +3,10 @@ import { apiFetch } from '../services/api'
 import { useNavigate } from 'react-router-dom'
 import { setUser } from '../features/userSlice'
 import { useDispatch } from 'react-redux'
+import TextField from "@mui/material/TextField"
+import { ThreeDots } from 'react-loader-spinner'
 
-function Login() {
+function Login({user}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -12,6 +14,7 @@ function Login() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
   
 
   async function handleLogin(e) {
@@ -25,7 +28,6 @@ function Login() {
         body: JSON.stringify({ email, password })
       })
 
-      console.log("Logged in user:", res.user)
       localStorage.setItem("user", JSON.stringify(res.user))
       dispatch(setUser(res.user))
       
@@ -38,35 +40,38 @@ function Login() {
     }
   }
 
+
   return (
-    <div className="full-container">
-      <form onSubmit={handleLogin}>
+    <div className="full-container" style={{height: 'calc(100vh - 70px)', display: 'flex', justifyContent: 'center', placeItems: 'center'}}>
+      <form onSubmit={handleLogin} className="book-appointment" style={{width: '400px', paddingTop: '60px', paddingBottom: '60px'}}>
         <h2>Login</h2>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p style={{ color: "red", textTransform: 'capitalize' }}>{error}</p>}
 
-        <div>
-          <input
-            type="email"
-            value={email}
-            placeholder="email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
 
-        <div>
-          <input
-            type="password"
-            value={password}
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <TextField
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+        />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Submit"}
+        <TextField
+          label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+        />
+
+        <button type="submit" className="bookSubmit">
+          {loading ? <ThreeDots
+            height="20"
+            width="40"
+            radius="9"
+            color="#fff"
+            ariaLabel="three-dots-loading"
+            visible={true}
+          /> : 'Login'}
         </button>
       </form>
     </div>
