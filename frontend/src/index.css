@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
 }
 .topbar {
   background: #030390;
@@ -122,8 +122,25 @@
   justify-content: center;
   place-items: center;
 }
+.cancel {
+  padding: 15px;
+  background-color: transparent;
+  border: 1px solid #d61919fa;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  width: 49%;
+}
 .bookSubmit:hover {
   background-color: #030390;
+  color: #fff;
+}
+.cancel:hover {
+  background-color: #d61919fa;
   color: #fff;
 }
 .viewAppointment {
@@ -157,12 +174,12 @@
 .queue-card {
   display: flex;
   width: 100%;
+  padding: 0 20px;
   box-shadow: 0px 0px 6px #4d4d4d4a;
-  padding: 17px 20px;
   border-radius: 14px;
   justify-content: space-between;
   place-items: center;
-  height: 100px;
+  height: 120px;
 }
 .status {
   padding: 5px;
@@ -186,4 +203,49 @@
 .actions {
   display: flex;
   gap: 12px;
+}
+.actions.remove {
+  display: none;
+}
+.appointment-container {
+  margin-top: 120px;
+  padding: 0 15px; 
+  display: flex; 
+  gap: 23px;  
+  flex-direction: column; 
+  width: 100%;
+  transition: width .3s ease-in-out;
+}
+.appointment-container.active {
+  width: 100%;
+}
+.patientDetails {
+  width: 100%;
+  height: 0px;
+  box-shadow: 0px 0px 6px #4d4d4d4a;
+  border-radius: 14px;
+  transition: height .3s ease-in-out;
+}
+.patientDetails.active {
+  height: 200px;
+}
+.container2 {
+  width: 50%;
+  transition: width .3s ease-in-out;
+}
+.container2.full {
+  width: 100%;
+}
+.recordsform {
+  display: flex;
+  width: 0px;
+  flex: 1;
+  margin-top: 120px;
+  transition: .3s ease-in-out;
+}
+.recordsform.active {
+  width: 50%;
+}
+.recordsForm::-webkit-scrollbar {
+  display: none;
 }

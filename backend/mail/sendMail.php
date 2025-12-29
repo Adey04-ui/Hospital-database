@@ -39,6 +39,7 @@ if ($recipientEmail === '' || $recipientName === '' || $patient_id === 0) {
 
   $body = "
     <div style='font-family: Arial, sans-serif; line-height: 1.6'>
+        <p style='color: #030390; font-weight: 500; font-size: 17px;'>Hospital name</p>
         <p>Welcome <strong>{$recipientName}</strong>,</p>
 
         <p>
@@ -76,7 +77,7 @@ try {
 
     // Content
     $mail->isHTML(true);                                  
-    $mail->Subject = 'Test Email from PHPMailer, patient created';
+    $mail->Subject = 'Hospital Name';
     $mail->Body    = $body;
 
     $mail->send();
@@ -86,7 +87,7 @@ try {
     ]);
 } catch (Exception $e) {
     http_response_code(403);
-    echo json_encode(["message" => "Mail could not be sent: {$mail->ErrorInfo}"]);
+    echo json_encode(["message" => "Mail could not be sent: {$mail->ErrorInfo} {$_ENV['MAIL_HOST']}{$_ENV['MAIL_USER']}{$_ENV['MAIL_PASS']}"]);
     exit;
 }
 ?>
