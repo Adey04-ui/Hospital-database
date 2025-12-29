@@ -114,6 +114,26 @@ CREATE TABLE doctor_availability (
     ON DELETE CASCADE
 );
 
+CREATE TABLE patient_records (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
+  appointment_id INT NOT NULL,
+
+  diagnosis TEXT NOT NULL,
+  symptoms TEXT,
+  treatment TEXT,
+  prescription TEXT,
+  notes TEXT,
+
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+  FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE,
+  FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE CASCADE
+);
+
 INSERT INTO roles (name) VALUES
 ('admin'),
 ('doctor'),
