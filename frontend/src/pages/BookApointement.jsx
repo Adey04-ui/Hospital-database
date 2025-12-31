@@ -29,6 +29,35 @@ export default function BookAppointment({ user }) {
     appointment_date: ""
   })
 
+  const [mail, setMail] = useState({
+    full_name: "",
+    email: "",
+    doctor_name: "",
+    date: form.appointment_date,
+  })
+
+  useEffect(()=> {
+    setMail({
+      ...mail,
+      full_name: selectedPatient?.full_name,
+      email: selectedPatient?.email,
+    })
+  }, [selectedPatient])
+
+  useEffect(()=> {
+    setMail({
+      ...mail,
+      doctor_name: selectedDoctor?.full_name,
+    })
+  }, [selectedDoctor])
+
+  useEffect(() => {
+  setMail(prev => ({
+    ...prev,
+    date: form.appointment_date,
+  }))
+}, [form.appointment_date])
+
   useEffect(() => {
     apiFetch("/departments/list.php")
       .then(setDepartments)
@@ -59,9 +88,20 @@ export default function BookAppointment({ user }) {
         method: "POST",
         body: JSON.stringify(form)
       })
+      const appointment_id = res.appointment_id
+
+      const mailRes = await apiFetch("/mail/appointmentMail.php", {
+        method: "POST",
+        body: JSON.stringify({
+          ...mail,
+          appointment_id: Number(appointment_id)
+        }),
+      })
 
       setConfirmation(res.appointment)
       setDialogOpen(true)
+
+      console.log(mailRes?.message)
 
       // reset form
       setForm({
@@ -212,7 +252,7 @@ export default function BookAppointment({ user }) {
           )}
         />
 
-        <button type="submit" className="bookSubmit">{submitting ? <ThreeDots
+        <button type="submit" className="bookSubmit" disabled={submitting}>{submitting ? <ThreeDots
           height="20"
           width="40"
           radius="9"

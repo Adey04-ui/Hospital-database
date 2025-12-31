@@ -13,6 +13,9 @@ import Unauthorized from './components/Unauthorized'
 import CreatePatient from './pages/CreatePatient'
 import Appointments from './pages/Appointments'
 import CreateDoctor from './pages/CreateDoctor'
+import Records from './pages/Records'
+import RecordDetails from './pages/RecordDetails'
+import Doctors from './pages/Doctors'
 
 function App() {
   const dispatch = useDispatch()
@@ -46,6 +49,9 @@ function App() {
         <Route path="/login" element={<Login user={user1} />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/new-patient" element={<CreatePatient user={user1} />} />
+        <Route path="/records" element={<Records user={user1} />} />
+        <Route path="/records/:id" element={<RecordDetails user={user1} />} />
+        <Route path="/all-doctors" element={<Doctors user={user1} />} />
         <Route path="/appointments" element={<Appointments user={user1} />} />
         <Route path="/doctors" element={<CreateDoctor user={user1} />} />
         <Route path="/loader" element={<Unauthorized />} />

@@ -13,7 +13,7 @@
 
   $result = mysqli_query(
     $conn,
-    "SELECT id, full_name, gender, date_of_birth, phone
+    "SELECT id, full_name, gender, date_of_birth, phone, email
     FROM patients
     ORDER BY created_at DESC"
   );

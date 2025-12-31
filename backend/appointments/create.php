@@ -66,6 +66,7 @@ if (!mysqli_query($conn, $insertQuery)) {
 // 3️⃣ Success response
 echo json_encode([
   "message" => "Appointment booked successfully",
+  "appointment_id" => mysqli_insert_id($conn),
   "appointment" => [
     "date" => $appointment_date,
     "window" => "$window_start - $window_end"
