@@ -3,18 +3,17 @@ import { apiFetch } from '../services/api'
 import { Search } from 'react-feather'
 import RelativeLoader from '../components/RelativeLoader'
 import Loader from '../components/Loader'
-import Unauthorized from '../components/Unauthorized'
 
-function Doctors({user}) {
+function Patients() {
   const [loading, setLoading] = useState(true)
-  const [doctors, setDoctors] = useState([])
+  const [patients, setPatients] = useState([])
   const [search, setSearch] = useState("")
 
   useEffect(()=> {
     const fetchDoctors = async () => {
       try {
-        const res = await apiFetch('/doctors/list.php')
-        setDoctors(res)
+        const res = await apiFetch('/patients/list.php')
+        setPatients(res)
       } catch (error) {
         console.error(error)
       } finally {
@@ -25,17 +24,15 @@ function Doctors({user}) {
     fetchDoctors()
   }, [])
 
-  const filteredDoctors = doctors.filter(doctor => {
+  const filteredPatients = patients.filter(patient => {
     const query = search.toLowerCase()
 
     return (
-      doctor.full_name.toLowerCase().includes(query) ||
-      doctor.id.toString().includes(query)
+      patient.full_name.toLowerCase().includes(query) ||
+      patient.id.toString().includes(query)
     )
   })
-
   if (loading) return <Loader />
-  if(user.role !== "admin") return <Unauthorized message={"Only admin can enter this page"} />
   return (
     <div className="full-container">
       <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', margin: '12px 0'}}>
@@ -45,7 +42,7 @@ function Doctors({user}) {
         <div>
           <input
             type="text"
-            placeholder="Search by doctor name or doctor ID"
+            placeholder="Search by patient name or patient ID"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="search-input"
@@ -57,33 +54,33 @@ function Doctors({user}) {
       </div>
       <div>
         <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', background: '#030390', color: '#fff', padding: '7px 14px'}}>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Doctor id</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Doctor name</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Department</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Specialization</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Shift starts</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Shift ends</span>
+          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Patient id</span>
+          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Patient name</span>
+          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Gender</span>
+          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Email</span>
+          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Phone Number</span>
+          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Date of Birth</span>
         </div>
         <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px - 100px)',}} className='table-container'>
-          {filteredDoctors.map((doctor, index) => (
+          {filteredPatients.map((patient, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`}>
               <span style={{width: '16%', fontSize: '16px',}}>
-                {doctor.id}
+                {patient.id}
               </span>
               <span style={{width: '16%', fontSize: '16px',}}>
-                {doctor.full_name}
+                {patient.full_name}
               </span>
               <span style={{width: '16%', fontSize: '16px',}}>
-                {doctor.department}
+                {patient.gender}
+              </span>
+              <span style={{width: '16%', fontSize: '16px', textWrap: 'wrap', wordWrap: 'break-word'}}>
+                {patient.email}
               </span>
               <span style={{width: '16%', fontSize: '16px',}}>
-                {doctor.specialization}
+                {patient.phone}
               </span>
               <span style={{width: '16%', fontSize: '16px',}}>
-                {doctor.shift_start}
-              </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
-                {doctor.shift_end}
+                {patient.date_of_birth}
               </span>
             </div>
           ))}
@@ -93,4 +90,4 @@ function Doctors({user}) {
   )
 }
 
-export default Doctors
+export default Patients

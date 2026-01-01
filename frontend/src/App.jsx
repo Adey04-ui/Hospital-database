@@ -16,6 +16,7 @@ import CreateDoctor from './pages/CreateDoctor'
 import Records from './pages/Records'
 import RecordDetails from './pages/RecordDetails'
 import Doctors from './pages/Doctors'
+import Patients from './pages/Patients'
 
 function App() {
   const dispatch = useDispatch()
@@ -52,6 +53,7 @@ function App() {
         <Route path="/records" element={<Records user={user1} />} />
         <Route path="/records/:id" element={<RecordDetails user={user1} />} />
         <Route path="/all-doctors" element={<Doctors user={user1} />} />
+        <Route path="/all-patients" element={<Patients user={user1} />} />
         <Route path="/appointments" element={<Appointments user={user1} />} />
         <Route path="/doctors" element={<CreateDoctor user={user1} />} />
         <Route path="/loader" element={<Unauthorized />} />

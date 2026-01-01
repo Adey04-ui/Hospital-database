@@ -15,7 +15,7 @@
     $conn,
     "SELECT id, full_name, gender, date_of_birth, phone, email
     FROM patients
-    ORDER BY created_at DESC"
+    ORDER BY created_at ASC"
   );
 
   $patients = [];
