@@ -73,7 +73,7 @@ export default function BookAppointment({ user }) {
   useEffect(() => {
     if (!selectedDepartment) return
 
-    apiFetch(`/doctors/by-department.php?department_id=${selectedDepartment}`)
+    apiFetch(`/doctors/list.php?departmentId=${selectedDepartment}`)
       .then(setDoctors)
       .catch(console.error)
   }, [selectedDepartment])

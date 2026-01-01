@@ -253,3 +253,16 @@
 .recordsForm::-webkit-scrollbar {
   display: none;
 }
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 14px;
+  place-items: center;
+  box-shadow: 0px 2px 16px #bebebe4a;
+}
+.row.even {
+  background: #f6f6f6;
+}
+.table-container::-webkit-scrollbar {
+  display: none;
+}
