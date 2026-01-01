@@ -3,8 +3,9 @@ import { apiFetch } from '../services/api'
 import { Search } from 'react-feather'
 import RelativeLoader from '../components/RelativeLoader'
 import Loader from '../components/Loader'
+import Unauthorized from '../components/Unauthorized'
 
-function Patients() {
+function Patients({user}) {
   const [loading, setLoading] = useState(true)
   const [patients, setPatients] = useState([])
   const [search, setSearch] = useState("")
@@ -33,11 +34,12 @@ function Patients() {
     )
   })
   if (loading) return <Loader />
+  if (user.role !== "admin" && user.role !== "receptionist") return <Unauthorized />
   return (
     <div className="full-container">
       <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', margin: '12px 0'}}>
         <span style={{fontSize: '19px', fontWeight: 500,}}>
-          All Doctors
+          All Patients
         </span>
         <div>
           <input
