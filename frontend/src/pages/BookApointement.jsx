@@ -73,7 +73,7 @@ export default function BookAppointment({ user }) {
   useEffect(() => {
     if (!selectedDepartment) return
 
-    apiFetch(`/doctors/list.php?departmentId=${selectedDepartment}`)
+    apiFetch(`/doctors/by-department.php?department_id=${selectedDepartment}`)
       .then(setDoctors)
       .catch(console.error)
   }, [selectedDepartment])
@@ -84,6 +84,7 @@ export default function BookAppointment({ user }) {
     setSubmitting(true)
 
     try {
+      console.log(form)
       const res = await apiFetch("/appointments/create.php", {
         method: "POST",
         body: JSON.stringify(form)
@@ -256,7 +257,6 @@ export default function BookAppointment({ user }) {
           height="20"
           width="40"
           radius="9"
-          color="#fff"
           ariaLabel="three-dots-loading"
           visible={true}
         /> : 'Book Appointment'}</button>

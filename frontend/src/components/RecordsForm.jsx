@@ -10,7 +10,8 @@ function RecordsForm({
   setdisplayDetails,
   setPatientDetails,
   setSelectedAppointment,
-  setAppointments
+  setAppointments,
+  mail
 }) {
   const [form, setForm] = useState({
     diagnosis: "",
@@ -23,6 +24,7 @@ function RecordsForm({
 
   if (!patientDetails || !appId) return null
 
+
   const updateAppointmentStatus = async (appointmentId) => {
     return apiFetch("/appointments/update_status.php", {
       method: "POST",
@@ -34,6 +36,7 @@ function RecordsForm({
   }
 
   const submitRecord = async () => {
+    console.log(form.prescription)
     try {
       if (loading) return
 
@@ -49,6 +52,16 @@ function RecordsForm({
       })
 
       await updateAppointmentStatus(appId)
+
+      const mailRes = await apiFetch("/mail/appointmentStatusChange.php", {
+        method: "POST",
+        body: JSON.stringify({
+          ...mail,
+          prescription: form.prescription,
+        }),
+      })
+
+      console.log(mailRes?.message)
 
       setAppointments(prev =>
         prev.map(a =>
@@ -147,7 +160,6 @@ function RecordsForm({
               height="20"
               width="40"
               radius="9"
-              color="#fff"
               ariaLabel="three-dots-loading"
               visible={true}
             /> : 'Save Record'}

@@ -61,6 +61,7 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           fullWidth
+          type="password"
         />
 
         <button type="submit" className="bookSubmit">
@@ -68,7 +69,6 @@ function Login() {
             height="20"
             width="40"
             radius="9"
-            color="#fff"
             ariaLabel="three-dots-loading"
             visible={true}
           /> : 'Login'}

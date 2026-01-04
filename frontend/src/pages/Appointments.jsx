@@ -21,6 +21,14 @@ function Appointments({user}) {
     completed: 2,
     cancelled: 3,
   }
+  const [mail, setMail] = useState({
+    full_name: '',
+    email: '',
+    appointment_id: null,
+    doctor_name: '',
+    date: '',
+    status: '',
+  })
 
 
   const fetchAppointments = async () => {
@@ -178,6 +186,14 @@ function Appointments({user}) {
                   setSelectedAppointment(app.id)
                   setAppId(app.id)
                   setdisplayDetails(true)
+                  setMail({
+                    full_name: app.patient_name,
+                    email: app.patient_email,
+                    appointment_id: app.id,
+                    doctor_name: app.doctor_name,
+                    date: app.appointment_date,
+                    status: 'completed'
+                  })
                 }
               }}>
                 <div>
@@ -276,7 +292,7 @@ function Appointments({user}) {
         <div className={`recordsform ${selectedAppointment && 'active'}`}>
           <div style={{ boxShadow: '0px 0px 6px #4d4d4d4a',width: '100%', borderRadius: '14px'}}>
             {selectedAppointment && patientDetails && (
-              <RecordsForm patientDetails={patientDetails} appId={appId} setSelectedAppointment={setSelectedAppointment} setPatientDetails={setPatientDetails} setdisplayDetails={setdisplayDetails} setAppId={setAppId} setAppointments={setAppointments} />
+              <RecordsForm patientDetails={patientDetails} appId={appId} setSelectedAppointment={setSelectedAppointment} setPatientDetails={setPatientDetails} setdisplayDetails={setdisplayDetails} setAppId={setAppId} setAppointments={setAppointments} mail={mail} />
             )}
           </div>
         </div>
