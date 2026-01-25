@@ -1,72 +1,14 @@
-import React, {useState, useEffect} from 'react'
-import { apiFetch } from '../services/api'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function AllStaffs() {
-  const [doctors, setDoctors] = useState([])
-  const [receptionists, setReceptionists] = useState([])
-  const [patients, setPatients] = useState([])
-  const [appointments, setAppointments] = useState([])
-  const [loading, setLoading] = useState(true)
-
+function AllStaffs({doctors, receptionists, patients, appointments}) {
   const navigate = useNavigate()
-
-  useEffect(()=> {
-    const fetchDoctors = async () => {
-      try {
-        const res = await apiFetch('/doctors/list.php')
-        setDoctors(res)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    const fetchReceptionists = async () => {
-      try {
-        const res = await apiFetch('/receptionists/list.php')
-        setReceptionists(res)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    const fetchPatients = async () => {
-      try {
-        const res = await apiFetch('/patients/list.php')
-        setPatients(res)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    const fetchAppointments = async () => {
-      try {
-        const res = await apiFetch('/appointments/list.php')
-        setAppointments(res)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchDoctors()
-    fetchReceptionists()
-    fetchPatients()
-    fetchAppointments()
-  }, [])
-
-  console.log(doctors.length)
-
   return (
-    <div style={{marginTop: '20px', height: '170px'}}>
+    <div style={{marginTop: '40px', height: '200px', background: '#fff', padding: '20px', borderRadius: '6px', boxShadow: '0px 5px 30px #dadadabe'}}>
       <span>
 
       </span>
-      <div style={{display: 'flex', height: '100%', gap: '10px', justifyContent: 'space-between', background: '#fff', padding: '20px', borderRadius: '6px', boxShadow: '0px 5px 30px #dadadabe'}}>
+      <div style={{display: 'flex', height: '100%', gap: '10px', justifyContent: 'space-between',}}>
         <div onClick={()=> navigate('/all-doctors')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
           <span style={{fontWeight: 500, fontSize: '1.1em', marginBottom: '10px', color: '#666666'}}>
             Total Doctors

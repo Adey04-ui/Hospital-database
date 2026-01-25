@@ -20,6 +20,7 @@ import Patients from './pages/Patients'
 import Sidebar from './components/Sidebar'
 import CreateReceptionist from './pages/CreateReceptionist'
 import Receptionists from './pages/Receptionists'
+import Today from './pages/Today'
 
 function App() {
   const dispatch = useDispatch()
@@ -61,6 +62,7 @@ function App() {
         <Route path="/all-patients" element={<Patients user={user1} />} />
         <Route path="/all-receptionists" element={<Receptionists user={user1} />} />
         <Route path="/appointments" element={<Appointments user={user1} />} />
+        <Route path="/appointment-today" element={<Today user={user1} />} />
         <Route path="/doctors" element={<CreateDoctor user={user1} />} />
         <Route path="/loader" element={<Unauthorized />} />
         <Route path="/sidebar" element={<Sidebar user={user1} />} />

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {useState, useEffect} from 'react'
 import { apiFetch } from '../services/api'
 import { Check, Search, X } from 'react-feather'
 import Loader from '../components/Loader'
 import RecordsForm from '../components/RecordsForm'
 import { useNavigate } from 'react-router-dom'
 
-function Appointments({user}) {
+function Today({user}) {
   const navigate = useNavigate()
   const [appointments, setAppointments] = useState([])
   const [search, setSearch] = useState("")
@@ -34,7 +34,7 @@ function Appointments({user}) {
   const fetchAppointments = async () => {
     setLoading(true)
     try {
-      const data = await apiFetch('/appointments/list.php')
+      const data = await apiFetch('/appointments/list.php?day=today')
       setAppointments(data)
     } catch (err) {
       console.error("Failed to load appointments", err)
@@ -154,10 +154,10 @@ function Appointments({user}) {
   return (
     <div className="full-container"  style={{maxHeight: 'calc(100vh)', paddingTop: '0px',}}>
       
-      <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', placeItems: 'center', marginBottom: '20px', position: 'fixed', width: 'calc(100% - 380px)', background: '#f6f6f6', paddingTop: '30px', }}>
+      <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', placeItems: 'center', marginBottom: '20px', position: 'fixed', width: 'calc(100% - 380px)', background: '#f6f6f6', paddingTop: '30px', marginTop: '0px'}}>
         <div style={{fontSize: '19px', padding: '20px 0', fontWeight: 500}}>
           {user.role == "doctor" && "Today's Appointments"}
-          {user.role == "admin" && "All Appointments"}
+          {user.role == "admin" && "Today's Appointments"}
         </div>
         <div>
           <input
@@ -301,4 +301,4 @@ function Appointments({user}) {
   )
 }
 
-export default Appointments
+export default Today
