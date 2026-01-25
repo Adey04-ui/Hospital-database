@@ -134,7 +134,7 @@ export default function BookAppointment({ user }) {
 
 
   return (
-    <div className="full-container" style={{maxHeight: 'calc(100vh - 70px)'}}>
+    <div className="full-container" style={{maxHeight: 'calc(100vh)'}}>
       <form onSubmit={handleSubmit} className="book-appointment">
         <h2>Book Appointment</h2>
 

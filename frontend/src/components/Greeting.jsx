@@ -24,6 +24,11 @@ function Greeting({user}) {
             View all appointments
           </button>
         )}
+        {user.role == "receptionist" && (
+          <button className="viewAppointment" onClick={()=> navigate("/book-appointment")}>
+            Create appointment
+          </button>
+        )}
       </div>
     </div>
   )

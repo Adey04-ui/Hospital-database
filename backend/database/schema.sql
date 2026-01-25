@@ -39,6 +39,14 @@ CREATE TABLE doctors (
   FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
+CREATE TABLE receptionists (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE patients (
   id INT AUTO_INCREMENT PRIMARY KEY,
   full_name VARCHAR(100) NOT NULL,

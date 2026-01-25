@@ -84,8 +84,8 @@ export default function CreatePatient({ user }) {
   }
 
   return (
-    <div className="full-container" style={{maxHeight: 'calc(100vh - 70px)'}}>
-      <form onSubmit={handleSubmit} className="book-appointment">
+    <div className="full-container" style={{maxHeight: 'calc(100vh)'}}>
+      <form onSubmit={handleSubmit} className="book-appointment" style={{width: '500px'}}>
         <h2>Register New Patient</h2>
 
         <TextField

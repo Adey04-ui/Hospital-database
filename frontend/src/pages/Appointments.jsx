@@ -152,7 +152,7 @@ function Appointments({user}) {
   }
   
   return (
-    <div className="full-container"  style={{maxHeight: 'calc(100vh - 70px)', paddingTop: '0px',}}>
+    <div className="full-container"  style={{maxHeight: 'calc(100vh)', paddingTop: '0px',}}>
       
       <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', placeItems: 'center', marginBottom: '20px', position: 'fixed', width: 'calc(100% - 80px)', background: '#fff', paddingTop: '30px', marginTop: '5px'}}>
         <div style={{fontSize: '19px', padding: '20px 0', fontWeight: 500}}>

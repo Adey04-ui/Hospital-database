@@ -17,6 +17,9 @@ import Records from './pages/Records'
 import RecordDetails from './pages/RecordDetails'
 import Doctors from './pages/Doctors'
 import Patients from './pages/Patients'
+import Sidebar from './components/Sidebar'
+import CreateReceptionist from './pages/CreateReceptionist'
+import Receptionists from './pages/Receptionists'
 
 function App() {
   const dispatch = useDispatch()
@@ -44,19 +47,23 @@ function App() {
 
   return (
     <>
-      <Topbar user={user1} />
+      {/* <Topbar user={user1} /> */}
+      <Sidebar user={user1} />
       {loading && <Loader />}
       <Routes>
         <Route path="/login" element={<Login user={user1} />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/new-patient" element={<CreatePatient user={user1} />} />
+        <Route path="/new-receptionist" element={<CreateReceptionist user={user1} />} />
         <Route path="/records" element={<Records user={user1} />} />
         <Route path="/records/:id" element={<RecordDetails user={user1} />} />
         <Route path="/all-doctors" element={<Doctors user={user1} />} />
         <Route path="/all-patients" element={<Patients user={user1} />} />
+        <Route path="/all-receptionists" element={<Receptionists user={user1} />} />
         <Route path="/appointments" element={<Appointments user={user1} />} />
         <Route path="/doctors" element={<CreateDoctor user={user1} />} />
         <Route path="/loader" element={<Unauthorized />} />
+        <Route path="/sidebar" element={<Sidebar user={user1} />} />
         <Route path="/book-appointment" element={<BookAppointment user={user1} />} />
       </Routes>
     </>
