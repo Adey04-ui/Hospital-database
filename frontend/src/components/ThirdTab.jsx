@@ -78,7 +78,7 @@ function ThirdTab() {
         </div>
         <div style={{width: '100%', marginTop: '10px', padding: '12px', background: '#f6f6f6'}}>
           <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'auto',}} className='table-container'>
-            {splicedappointments.map((app, index) => (
+            {splicedappointments.length > 0 ? splicedappointments.map((app, index) => (
               <div key={index} className={`row`} style={{background: '#fff', justifyContent: 'inherit', borderRadius: '5px'}}>
                 <span style={{width: '28%', fontSize: '16px',}}>
                   {app.patient_name}
@@ -93,7 +93,11 @@ function ThirdTab() {
                   {app.status}
                 </span>
               </div>
-            ))}
+            )) : (
+                <span style={{display: 'flex', justifyContent: 'center', placeItems: 'center'}}>
+                  No appointments yet
+                </span>
+              )}
           </div>
         </div>
       </div>

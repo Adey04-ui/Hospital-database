@@ -66,7 +66,7 @@ function AppointmentComponent({appointments}) {
               <span style={{width: '16%', fontSize: '14px', fontWeight: 500,}}>Date</span>
             </div>
             <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'auto',}} className='table-container'>
-              {completedAppointments.map((app, index) => (
+              {completedAppointments.length > 0 ? completedAppointments.map((app, index) => (
                 <div key={index} className={`row`} style={{background: '#fff'}}>
                   <span style={{width: '23%', fontSize: '16px',}}>
                     {app.id}
@@ -81,7 +81,11 @@ function AppointmentComponent({appointments}) {
                     {app.appointment_date}
                   </span>
                 </div>
-              ))}
+              )) : (
+                <span>
+                  No completed appointments yet
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -97,7 +101,7 @@ function AppointmentComponent({appointments}) {
               <span style={{width: '16%', fontSize: '14px', fontWeight: 500,}}>Date</span>
             </div>
             <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'auto',}} className='table-container'>
-              {cancelledAppointments.map((app, index) => (
+              {cancelledAppointments.length > 0 ? cancelledAppointments.map((app, index) => (
                 <div key={index} className={`row`} style={{background: '#fff'}}>
                   <span style={{width: '23%', fontSize: '16px',}}>
                     {app.id}
@@ -112,7 +116,11 @@ function AppointmentComponent({appointments}) {
                     {app.appointment_date}
                   </span>
                 </div>
-              ))}
+              )) : (
+                <span>
+                  No cancelled appointments yet
+                </span>
+              )}
             </div>
           </div>
         </div>

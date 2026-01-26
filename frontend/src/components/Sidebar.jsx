@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiFetch } from '../services/api'
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../features/userSlice'
-import { Activity, Book, Home, List, LogOut, MessageCircle, UserPlus } from 'react-feather'
+import { Activity, Book, ChevronRight, Clipboard, Home, List, LogOut, MessageCircle, UserCheck, UserPlus, Users, Zap } from 'react-feather'
 import { useLocation } from 'react-router-dom'
 
 function Sidebar({user}) {
@@ -11,6 +11,8 @@ function Sidebar({user}) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
+
+  const [quickLinks, setQuicklinks] = useState(false)
 
   const path = location.pathname
 
@@ -34,6 +36,12 @@ function Sidebar({user}) {
           <li className={path === "/new-patient" ? "active" : ""} onClick={()=> path !== "/new-patient" && navigate('/new-patient')}><UserPlus size={20} /> new patient</li>
           <li className={path === "/doctors" ? "active" : ""} onClick={()=> path !== "/doctors" &&  navigate('/doctors')}><UserPlus size={20} />new doctors</li>
           <li className={path === "/new-receptionist" ? "active" : ""} onClick={()=> path !== "/new-receptionist" &&  navigate('/new-receptionist')}><UserPlus size={20} />new receptionist</li>
+          <li className={quickLinks ? "active" : ""} onClick={()=> setQuicklinks(prev => (!prev))} style={{display: 'flex', justifyContent: 'space-between'}}><span><Zap size={20} /> Quick Links</span><span className={`chevron ${quickLinks && 'turn'}`} style={{marginBottom: '-7px'}}><ChevronRight size={20} /></span></li>
+        </ul>
+        <ul className={`quick ${quickLinks && 'active'}`} style={{gap: '0px'}}>
+          <li className="active" onClick={()=> path !== "/all-doctors" &&  navigate('/all-doctors')}><UserCheck size={20} /> doctors</li>
+          <li className="active" onClick={()=> path !== "/all-receptionists" &&  navigate('/all-receptionists')}><Clipboard size={20} /> receptionists</li>
+          <li className="active" onClick={()=> path !== "/all-patients" &&  navigate('/all-patients')}><Users size={20} /> patients</li>
         </ul>
       </div>
       <div className="logout">

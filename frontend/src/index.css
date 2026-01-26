@@ -330,3 +330,17 @@ body {
 .logout > button:hover {
   background-color: #3939395a;
 }
+.chevron {
+  transition: all .3s ease-in-out;
+}
+.chevron.turn {
+  transform: rotate(90deg);
+}
+.quick {
+  height: 0px;
+  transition: all .3s ease-in-out;
+  overflow: hidden;
+}
+.quick.active {
+  height: 170px;
+}
