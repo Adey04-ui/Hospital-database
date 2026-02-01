@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Navbar Example</title>
+    <style>
+      body { margin: 0; font-family: Arial, sans-serif; }
+.content { height: 2000px; padding: 20px; } /* For demo scrolling */
+
+/* Top bar styling */
+.top-bar {
+    background-color: #f8f8f8;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; /* Left and right alignment */
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    position: relative; /* Default: scrolls with page */
+}
+
+.contact-left { font-size: 14px; }
+.social-right { font-size: 14px; }
+.social-right a { text-decoration: none; color: #333; }
+
+/* Main navbar styling */
+.main-navbar {
+    background-color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky; /* Key: Sticks when it hits top of viewport */
+    top: 0; /* Stick to the very top */
+    z-index: 1000; /* Ensure it's above other elements */
+    transition: background-color 0.3s; /* Optional smooth effect */
+}
+
+.logo { font-weight: bold; font-size: 18px; }
+.menu { list-style: none; display: flex; margin: 0; padding: 0; }
+.menu li { margin-left: 20px; }
+.menu a { text-decoration: none; color: #333; }
+
+/* Optional: Change style when sticky (if using JS to add a class) */
+.main-navbar.sticky {
+    background-color: #eee; /* Slight change for visual feedback */
+}
+    </style>
+</head>
+<body>
+    <!-- Top utility bar (scrolls away) -->
+    <div class="top-bar">
+        <div class="contact-left">
+            Contact: +123-456-7890 | info@example.com
+        </div>
+        <div class="social-right">
+            <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a>
+        </div>
+    </div>
+
+    <!-- Main navbar (becomes sticky on scroll) -->
+    <nav class="main-navbar">
+        <div class="logo">Mother and Child Hospital</div>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Rest of the page content (for scrolling demo) -->
+    <div class="content">
+        <p>Scroll down to see the effect...</p>
+        <!-- Add more content here to make the page scrollable -->
+    </div>
+
+    <script src="script.js"></script> <!-- Link to JS if needed -->
+</body>
+</html>
