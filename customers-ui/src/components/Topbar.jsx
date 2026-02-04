@@ -3,7 +3,7 @@ import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
 
 function Topbar() {
   return (
-    <div style={{width: '100%', background: '#dddddd', position: 'relative', height: '35px', display: 'flex', placeItems: 'center', justifyContent: 'center'}}>
+    <div style={{width: '100%', background: '#dddddd', position: 'relative', height: '35px', placeItems: 'center', justifyContent: 'center',}} className='topbar'>
       <div style={{width: '75%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}>
         <span style={{fontSize: '13px', padding: '12px 10px', fontWeight: '400', color: '#575757'}}>
           Healthy Family, our Mission | Contact us on +2348069926679 or +2347054034139
