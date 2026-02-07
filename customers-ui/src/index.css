@@ -293,6 +293,9 @@ footer > div {
   background: #cd5c5c;
   color: #fff;
 }
+.container-14 {
+  width: 65%;
+}
 @media screen and (max-width: 990px) {
   .hidden-answer.show {
     height: 170px;
@@ -486,5 +489,8 @@ footer > div {
   }
   .contact-container {
     width: 340px;
+  }
+  .container-14 {
+    width: 100%;
   }
 }
