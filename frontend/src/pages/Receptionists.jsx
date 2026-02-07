@@ -60,7 +60,7 @@ function Receptionists({user}) {
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Receptionist id</span>
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Receptionist name</span>
         </div>
-        <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px - 100px)',}} className='table-container'>
+        <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
           {filteredReceptionists.map((receptionist, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`} style={{justifyContent: 'inherit'}}>
               <span style={{width: '16%', fontSize: '16px',}}>

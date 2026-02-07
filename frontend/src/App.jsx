@@ -53,7 +53,7 @@ function App() {
       {loading && <Loader />}
       <Routes>
         <Route path="/login" element={<Login user={user1} />} />
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard user={user1} />} />
         <Route path="/new-patient" element={<CreatePatient user={user1} />} />
         <Route path="/new-receptionist" element={<CreateReceptionist user={user1} />} />
         <Route path="/records" element={<Records user={user1} />} />

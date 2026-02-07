@@ -63,7 +63,7 @@ function Patients({user}) {
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Phone Number</span>
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Date of Birth</span>
         </div>
-        <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px - 100px)',}} className='table-container'>
+        <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
           {filteredPatients.map((patient, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`}>
               <span style={{width: '16%', fontSize: '16px',}}>

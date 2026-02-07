@@ -170,11 +170,11 @@ export default function BookAppointment({ user }) {
             option.id === value.id
           }
           onChange={(event, value) => {
-            setSelectedPatient(value)
             setForm({
               ...form,
               patient_id: value ? value.id : "",
             })
+            setSelectedPatient(value)
           }}
           renderInput={(params) => (
             <TextField

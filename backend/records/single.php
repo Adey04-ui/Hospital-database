@@ -39,7 +39,8 @@
 
     d.id AS doctor_id,
     u.id AS doctor_user_id,
-    u.full_name AS doctor_name
+    u.full_name AS doctor_name,
+    d.user_id AS doctor_user_id
 
   FROM patient_records r
   JOIN patients p ON r.patient_id = p.id

@@ -38,7 +38,6 @@ function Records({user}) {
   })
 
   if (loading) return <Loader />
-  if(user.role !== "admin") return <Unauthorized message={"Only admin can enter this page"} />
   return (
     <div className="full-container">
       <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', margin: '12px 0'}}>
@@ -67,7 +66,7 @@ function Records({user}) {
           <span style={{width: '18%', fontSize: '17px', fontWeight: 500,}}>Date</span>
           <span style={{width: '18%', fontSize: '17px', fontWeight: 500,}}>Action</span>
         </div>
-        <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px - 100px)',}} className='table-container'>
+        <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
           {filteredRecords.map((record, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`}>
               <span style={{width: '6%', fontSize: '16px',}}>
