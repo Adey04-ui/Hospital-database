@@ -5,11 +5,11 @@ require_once "../config/db.php";
 
 $role = $_SESSION['user']['role'];
 
-if ($role !== 'doctor') {
-    http_response_code(403);
-    echo json_encode(["message" => "Unauthorized"]);
-    exit;
-}
+// if ($role !== 'doctor') {
+//     http_response_code(403);
+//     echo json_encode(["message" => "Unauthorized"]);
+//     exit;
+// }
 
 $user_id = (int) $_SESSION['user']['id'];
 $today = date('Y-m-d');

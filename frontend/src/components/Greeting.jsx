@@ -15,7 +15,7 @@ function Greeting({user}) {
       </div>
       <div>
         {user.role == "doctor" && (
-          <button className="viewAppointment" onClick={()=> navigate("/appointments")}>
+          <button className="viewAppointment" onClick={()=> navigate("/appointment-today")}>
             View Today's appointments
           </button>
         )}

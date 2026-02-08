@@ -4,10 +4,9 @@ import DoctorDashboard from '../components/DoctorDashboard'
 
 
 function Dashboard({user}) {
- if (user.role === 'admin') {
+ if (user?.role === 'admin' || user?.role == 'receptionist') {
     return <AdminDashboard user={user} />
-  }
-  if (user.role === 'doctor') {
+  } else if (user?.role === 'doctor') {
     return <DoctorDashboard user={user} />
   }
 }

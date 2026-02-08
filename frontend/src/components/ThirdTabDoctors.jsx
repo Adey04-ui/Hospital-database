@@ -67,7 +67,7 @@ function ThirdTabDoctors() {
           <span style={{fontSize: '18px', fontWeight: 500, color: '#666666'}}>
             Upcoming's appointments
           </span>
-          <span style={{color: '#030390', cursor: 'pointer'}} onClick={()=> navigate('/appointment-today')}>
+          <span style={{color: '#030390', cursor: 'pointer'}} onClick={()=> navigate('/upcoming')}>
             view all
           </span>
         </div>

@@ -5,7 +5,7 @@ import Loader from '../components/Loader'
 import RecordsForm from '../components/RecordsForm'
 import { useNavigate } from 'react-router-dom'
 
-function Appointments({user}) {
+function Upcoming({user}) {
   const navigate = useNavigate()
   const [appointments, setAppointments] = useState([])
   const [search, setSearch] = useState("")
@@ -34,7 +34,7 @@ function Appointments({user}) {
   const fetchAppointments = async () => {
     setLoading(true)
     try {
-      const data = await apiFetch('/appointments/list.php')
+      const data = await apiFetch('/appointments/upcoming.php')
       setAppointments(data)
     } catch (err) {
       console.error("Failed to load appointments", err)
@@ -156,8 +156,8 @@ function Appointments({user}) {
       
       <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', placeItems: 'center', marginBottom: '20px', position: 'fixed', width: 'calc(100% - 380px)', background: '#f6f6f6', paddingTop: '30px', }}>
         <div style={{fontSize: '19px', padding: '20px 0', fontWeight: 500}}>
-          {user.role == "doctor" && "All Appointments"}
-          {user.role == "admin" && "All Appointments"}
+          {user.role == "doctor" && "Upcoming Appointments"}
+          {user.role == "admin" && "Upcoming Appointments"}
         </div>
         <div>
           <input
@@ -301,4 +301,4 @@ function Appointments({user}) {
   )
 }
 
-export default Appointments
+export default Upcoming

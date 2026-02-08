@@ -7,8 +7,8 @@ import ThirdTabDoctors from './ThirdTabDoctors'
 
 function DoctorDashboard({user}) {
   const [upcoming, setUpcoming] = useState([])
-  const [todayAppointments, setTodayAppointments] = useState([])
   const [appointments, setAppointments] = useState([])
+  const [counts, setCounts] = useState({})
 
   useEffect(()=> {
 
@@ -23,24 +23,11 @@ function DoctorDashboard({user}) {
 
     fetchAppointments()
   }, [])
-  useEffect(()=> {
-
-    const fetchTodayAppointments = async () => {
-      try {
-        const data = await apiFetch('/appointments/list.php')
-        console.log(data)
-        setTodayAppointments(data)
-      } catch (error) {
-        console.error("Error fetching today's appointments:", error)
-      }
-    }
-
-    fetchTodayAppointments()
-  }, [])
+  
   useEffect(()=> {
     const fetchUpcomingAppointments = async () => {
       try {
-        const res = await apiFetch('/appointments/upcoming.php')
+        const res = await apiFetch('/appointments/list.php?day=upcoming')
         setUpcoming(res)
       } catch (error) {
         console.error("Error fetching upcoming appointments:", error)
@@ -50,6 +37,19 @@ function DoctorDashboard({user}) {
     fetchUpcomingAppointments()
   }, [])
 
+  useEffect(()=> {
+    const fetchcounts = async () => {
+      try {
+        const res = await apiFetch('/appointments/counts.php?for=doctor')
+        setCounts(res)
+      } catch (error) {
+        console.error("Error fetching doctor counts:", error)
+      }
+    }
+
+    fetchcounts()
+  }, [])
+
 
   const cancelelledAppointments = appointments.filter(appointment => appointment.status === 'cancelled')
   const completedAppointments = appointments.filter(appointment => appointment.status === 'completed')
@@ -57,8 +57,8 @@ function DoctorDashboard({user}) {
     <>
       <div className="full-container">
         <Greeting user={user} />
-        <AllAppointmentDetails upcoming={upcoming} todayAppointments={todayAppointments} cancelled={cancelelledAppointments} completed={completedAppointments} />
-        <AppointmentComponentDoctors upcoming={upcoming} todayAppointments={todayAppointments} appointments={appointments} />
+        <AllAppointmentDetails counts={counts} upcoming={upcoming} cancelled={cancelelledAppointments} completed={completedAppointments} />
+        <AppointmentComponentDoctors upcoming={upcoming} appointments={appointments} />
         <ThirdTabDoctors />
       </div>
     </>

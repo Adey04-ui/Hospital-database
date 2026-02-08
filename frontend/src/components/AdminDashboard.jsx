@@ -7,14 +7,14 @@ import { apiFetch } from '../services/api'
 import ThirdTab from '../components/ThirdTab'
 import AllAppointmentDetails from '../components/AllAppointmentDetails'
 
-function AdminDashboard() {
-  const {user} = useSelector((state)=> state.user)
+function AdminDashboard({user}) {
 
       const [doctors, setDoctors] = useState([])
       const [receptionists, setReceptionists] = useState([])
       const [patients, setPatients] = useState([])
       const [appointments, setAppointments] = useState([])
       const [loading, setLoading] = useState(true)
+      const [counts, setCounts] = useState({})
 
 
       useEffect(()=> {
@@ -64,12 +64,25 @@ function AdminDashboard() {
         fetchPatients()
         fetchAppointments()
       }, [])
+
+      useEffect(()=> {
+        const fetchcounts = async () => {
+          try {
+            const res = await apiFetch('/appointments/counts.php?for=admin')
+            setCounts(res)
+          } catch (error) {
+            console.error("Error fetching admin counts:", error)
+          }
+        }
+    
+        fetchcounts()
+      }, [])
   
 
   return (
     <div className="full-container" style={{padding: '30px 40px'}}>
       <Greeting user={user} />
-          <AllStaffs doctors={doctors} receptionists={receptionists} appointments={appointments} patients={patients} />
+          <AllStaffs counts={counts} doctors={doctors} receptionists={receptionists} appointments={appointments} patients={patients} />
           <AppointmentComponent appointments={appointments} />
           <ThirdTab />
     </div>

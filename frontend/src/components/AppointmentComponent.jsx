@@ -25,7 +25,6 @@ function AppointmentComponent({appointments}) {
   const month = String(date.getMonth() + 1).padStart(2, '0') // January is 0!
   const year = date.getFullYear()
   const today = year + '-' + month + '-' + day
-  console.log(typeof(today))
 
   const completedAppointments = appointments.filter(appointment => {
     const query = 'completed'

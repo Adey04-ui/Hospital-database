@@ -26,7 +26,7 @@ function RecordDetails({user}) {
   }, [id])
 
   if (loading) return <RelativeLoader />
-  if (user.id !== record.doctor_user_id) return <Unauthorized message={'You didnt create this record'} />
+  if (user.id !== record.doctor_user_id && user.role !== 'admin') return <Unauthorized message={'You didnt create this record'} />
   if (!record) return <div>Record not found</div>
   return (
     <div className="full-container" style={{maxHeight: 'calc(100vh - 70px)'}}>

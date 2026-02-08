@@ -25,7 +25,6 @@ function ThirdTab() {
     fetchRecords()
     fetchAppointments()
   }, [])
-  console.log(appointments)
   const splicedRecords = records.slice(0, 5)
   const splicedappointments = appointments.slice(0, 5)
   const navigate = useNavigate()

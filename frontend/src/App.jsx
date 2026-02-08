@@ -21,6 +21,7 @@ import Sidebar from './components/Sidebar'
 import CreateReceptionist from './pages/CreateReceptionist'
 import Receptionists from './pages/Receptionists'
 import Today from './pages/Today'
+import Upcoming from './pages/Upcoming'
 
 function App() {
   const dispatch = useDispatch()
@@ -66,6 +67,7 @@ function App() {
         <Route path="/doctors" element={<CreateDoctor user={user1} />} />
         <Route path="/loader" element={<Unauthorized />} />
         <Route path="/sidebar" element={<Sidebar user={user1} />} />
+        <Route path="/upcoming" element={<Upcoming user={user1} />} />
         <Route path="/book-appointment" element={<BookAppointment user={user1} />} />
       </Routes>
     </>

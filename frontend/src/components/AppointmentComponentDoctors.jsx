@@ -1,11 +1,26 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
+import { apiFetch } from '../services/api'
 
-function AppointmentComponentDoctors({todayAppointments, appointments}) {
+function AppointmentComponentDoctors({ appointments}) {
   const navigate = useNavigate()
+  const [todayAppointments, setTodayAppointments] = useState([])
 
-  const splicedAppointemnts = appointments.splice(0, 5)
-  const splicedTodayAppointments = todayAppointments.splice(0, 5)
+  useEffect(()=> {
+    const fetchTodayAppointments = async () => {
+      try {
+        const data = await apiFetch('/appointments/list.php?day=today')
+        setTodayAppointments(data)
+      } catch (error) {
+        console.error("Error fetching today's appointments:", error)
+      }
+    }
+
+    fetchTodayAppointments()
+  }, [])
+
+  const splicedAppointemnts = appointments.slice(0, 5)
+  const splicedTodayAppointments = todayAppointments.slice(0, 5)
   return (
     <div style={{marginTop: '25px', height: 'auto', background: '#fff', padding: '30px', borderRadius: '6px', boxShadow: '0px 5px 30px #dadadabe'}}>
       <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '15px'}}>
