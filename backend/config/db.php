@@ -1,5 +1,6 @@
-<?php 
-  $conn = mysqli_connect("localhost","root","","hospital_db");
+<?php
+  require_once "../loadenv.php";
+  $conn = mysqli_connect(getenv("DB_HOST"),getenv("DB_USER"),getenv("DB_PASS"), getenv("DB_NAME"));
 
   if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());

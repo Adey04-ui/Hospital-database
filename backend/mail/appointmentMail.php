@@ -1,7 +1,7 @@
 <?php
 
 require_once "../config/header.php";
-require_once "../.env";
+require_once "../loadenv.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -9,29 +9,6 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-if (getenv('DB_HOST') || getenv('MAIL_HOST')) {
-    return;
-}
-
-$envPath = __DIR__ . '/../.env';
-
-if (!file_exists($envPath)) {
-    return;
-}
-
-$lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-foreach ($lines as $line) {
-    $line = trim($line);
-
-    if ($line === '' || str_starts_with($line, '#')) {
-        continue;
-    }
-
-    [$key, $value] = explode('=', $line, 2);
-
-    putenv(trim($key) . '=' . trim($value));
-}
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -84,7 +61,7 @@ try {
     $mail->Port       = 465;                                 
 
     // Recipients
-    $mail->setFrom(getenv('MAIL_USER') || $_ENV["MAIL_USER"], 'Hospital name');
+    $mail->setFrom(getenv('MAIL_USER'), 'Hospital name');
     $mail->addAddress("$recipientEmail", "$recipientName");     
 
     // Content
