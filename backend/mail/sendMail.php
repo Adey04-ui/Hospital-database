@@ -8,21 +8,29 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-$envPath = __DIR__ . "/../.env";
+if (getenv('DB_HOST') || getenv('MAIL_HOST')) {
+    return;
+}
+
+$envPath = __DIR__ . '/../.env';
 
 if (!file_exists($envPath)) {
-  die(".env file not found");
+    return;
 }
 
 $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 foreach ($lines as $line) {
-  if (str_starts_with(trim($line), '#')) continue;
+    $line = trim($line);
 
-  [$key, $value] = explode('=', $line, 2);
-  $_ENV[trim($key)] = trim($value);
+    if ($line === '' || str_starts_with($line, '#')) {
+        continue;
+    }
+
+    [$key, $value] = explode('=', $line, 2);
+
+    putenv(trim($key) . '=' . trim($value));
 }
-
 $data = json_decode(file_get_contents("php://input"), true);
 
 $mail = new PHPMailer(true);
@@ -64,15 +72,15 @@ if ($recipientEmail === '' || $recipientName === '' || $patient_id === 0) {
 try {
     // Server settings
     $mail->isSMTP();                                          
-    $mail->Host       = $_ENV['MAIL_HOST'];                     
+    $mail->Host       = getenv('MAIL_HOST');                     
     $mail->SMTPAuth   = true;                                
-    $mail->Username   = $_ENV['MAIL_USER'];              
-    $mail->Password   = $_ENV['MAIL_PASS'];  
+    $mail->Username   = getenv('MAIL_USER');              
+    $mail->Password   = getenv('MAIL_PASS');  
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         
     $mail->Port       = 465;                                 
 
     // Recipients
-    $mail->setFrom($_ENV['MAIL_USER'], 'Hospital name');
+    $mail->setFrom(getenv('MAIL_USER'), 'Hospital name');
     $mail->addAddress("$recipientEmail", "$recipientName");     
 
     // Content
