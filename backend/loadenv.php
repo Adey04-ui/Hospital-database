@@ -3,7 +3,7 @@ if (getenv('DB_HOST') || getenv('MAIL_HOST')) {
     return;
 }
 
-$envPath = __DIR__ . '/../.env';
+$envPath = __DIR__ . '/.env';
 
 if (!file_exists($envPath)) {
     return; // safe fallback
