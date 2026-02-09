@@ -1,17 +1,17 @@
 FROM php:8.2-apache
 
-# Fix Apache MPM conflict (VERY IMPORTANT)
-RUN a2dismod mpm_event mpm_worker || true \
-    && a2enmod mpm_prefork
+# HARD FIX: force prefork and remove others at config level
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.load \
+    && rm -f /etc/apache2/mods-enabled/mpm_worker.load \
+    && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load
 
-# Enable Apache rewrite
+# Enable rewrite
 RUN a2enmod rewrite
 
-# Install required PHP extensions
+# Install PHP extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Copy project files
+# Copy project
 COPY . /var/www/html/
 
-# Set permissions
 RUN chown -R www-data:www-data /var/www/html
