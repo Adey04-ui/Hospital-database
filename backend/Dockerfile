@@ -1,5 +1,9 @@
 FROM php:8.2-apache
 
+# Fix Apache MPM conflict (VERY IMPORTANT)
+RUN a2dismod mpm_event mpm_worker || true \
+    && a2enmod mpm_prefork
+
 # Enable Apache rewrite
 RUN a2enmod rewrite
 
