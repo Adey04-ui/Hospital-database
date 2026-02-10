@@ -2,7 +2,7 @@
 
 $allowedOrigins = [
     "http://localhost:5173",
-    "https://hospital-database-omega.vercel.app/"
+    "https://hospital-database-omega.vercel.app"
 ];
 
 if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
