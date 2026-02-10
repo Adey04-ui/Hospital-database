@@ -1,6 +1,6 @@
 <?php
 
-require_once "../config/header.php";
+require_once "../header.php";
 require_once "../loadenv.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
