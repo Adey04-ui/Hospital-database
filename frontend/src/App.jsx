@@ -22,6 +22,7 @@ import CreateReceptionist from './pages/CreateReceptionist'
 import Receptionists from './pages/Receptionists'
 import Today from './pages/Today'
 import Upcoming from './pages/Upcoming'
+import RelativeLoader from './components/RelativeLoader'
 
 function App() {
   const dispatch = useDispatch()
@@ -45,7 +46,7 @@ function App() {
     handleAuth()
   }, [dispatch, navigate])
 
-  if (loading) return <Loader />
+  if (loading) return <RelativeLoader />
 
   return (
     <>
