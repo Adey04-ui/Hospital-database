@@ -46,7 +46,7 @@ function App() {
     handleAuth()
   }, [dispatch, navigate])
 
-  if (loading) return <RelativeLoader />
+  if (loading) return <Loader />
 
   return (
     <>
