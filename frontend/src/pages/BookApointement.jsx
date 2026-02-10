@@ -37,18 +37,18 @@ export default function BookAppointment({ user }) {
   })
 
   useEffect(()=> {
-    setMail({
-      ...mail,
-      full_name: selectedPatient?.full_name,
-      email: selectedPatient?.email,
-    })
+    setMail(prev => ({
+      ...prev,
+      full_name: selectedPatient.full_name,
+      email: selectedPatient.email,
+    }))
   }, [selectedPatient])
 
   useEffect(()=> {
-    setMail({
-      ...mail,
-      doctor_name: selectedDoctor?.full_name,
-    })
+    setMail(prev => ({
+      ...prev,
+      doctor_name: selectedDoctor.full_name,
+    }))
   }, [selectedDoctor])
 
   useEffect(() => {

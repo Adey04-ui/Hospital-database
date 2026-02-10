@@ -2,7 +2,7 @@
 require_once "../config/header.php";
 require_once "../loadenv.php";
 function sendMailViaService($payload) {
-    $ch = curl_init(getenv('MAIL_SERVICE_URL'));
+    $ch = curl_init('https://hospital-database-j5za.onrender.com/appointmentMail.php');
 
     curl_setopt_array($ch, [
         CURLOPT_POST => true,
