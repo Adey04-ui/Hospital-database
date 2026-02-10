@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost/project/backend";
+const BASE_URL = "https://hospital-database-production.up.railway.app";
 
 export async function apiFetch(endpoint, options = {}) {
   const res = await fetch(`${BASE_URL}${endpoint}`, {
