@@ -15,8 +15,24 @@ function sendMailViaService($payload) {
     ]);
 
     $res = curl_exec($ch);
-    curl_close($ch);
+    
+    if ($res === false) {
+        return json_encode([
+            "success" => false,
+            "message" => "Curl error: " . curl_error($ch)
+        ]);
+    }
 
-    return $res;
+    // Ensure we return valid JSON even if remote server fails
+    $decoded = json_decode($res, true);
+    if ($decoded === null) {
+        return json_encode([
+            "success" => false,
+            "message" => "Invalid JSON from mail server",
+            "raw" => $res
+        ]);
+    }
+
+    return json_encode($decoded);
 }
 ?>
