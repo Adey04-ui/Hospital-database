@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import AllAppointmentDetails from './AllAppointmentDetails'
 import Greeting from './Greeting'
-import { apiFetch } from '../services/api'
+import { apiFetch, cachedFetch } from '../services/api'
 import AppointmentComponentDoctors from './AppointmentComponentDoctors'
 import ThirdTabDoctors from './ThirdTabDoctors'
 
@@ -14,7 +14,7 @@ function DoctorDashboard({user}) {
 
     const fetchAppointments = async () => {
       try {
-        const res = await apiFetch('/appointments/list.php?day=all')
+        const res = await cachedFetch('/appointments/list.php?day=all')
         setAppointments(res)
       } catch (error) {
         console.error("Error fetching all appointments:", error)
@@ -27,7 +27,7 @@ function DoctorDashboard({user}) {
   useEffect(()=> {
     const fetchUpcomingAppointments = async () => {
       try {
-        const res = await apiFetch('/appointments/list.php?day=upcoming')
+        const res = await cachedFetch('/appointments/list.php?day=upcoming')
         setUpcoming(res)
       } catch (error) {
         console.error("Error fetching upcoming appointments:", error)

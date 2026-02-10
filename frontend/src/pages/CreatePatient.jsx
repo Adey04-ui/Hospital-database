@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { apiFetch } from "../services/api"
+import { apiFetch, cachedFetch } from "../services/api"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Dialog from "@mui/material/Dialog"

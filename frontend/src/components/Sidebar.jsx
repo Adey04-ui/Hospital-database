@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { apiFetch } from '../services/api'
+import { apiFetch, clearMemoryCache } from '../services/api'
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../features/userSlice'
 import { Activity, Book, ChevronRight, Clipboard, Home, List, LogOut, MessageCircle, UserCheck, UserPlus, Users, Zap } from 'react-feather'
@@ -18,6 +18,7 @@ function Sidebar({user}) {
 
   function handleLogout() {
       apiFetch("/auth/logout.php")
+      clearMemoryCache
       dispatch(logoutUser())
       navigate("/login")
     }

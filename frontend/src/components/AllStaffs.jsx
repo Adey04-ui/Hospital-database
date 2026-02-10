@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function AllStaffs({counts}) {
+function AllStaffs({counts, loading}) {
   const navigate = useNavigate()
   return (
     <div style={{marginTop: '40px', height: '200px', background: '#fff', padding: '20px', borderRadius: '6px', boxShadow: '0px 5px 30px #dadadabe'}}>
@@ -14,7 +14,7 @@ function AllStaffs({counts}) {
             Total Doctors
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {counts.total_doctors}
+            {loading ? "..." : counts.total_doctors}
           </span>
         </div>
         <div onClick={()=> navigate('/all-receptionists')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
@@ -22,7 +22,7 @@ function AllStaffs({counts}) {
             Total receptionists
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {counts.total_receptionists}
+            {loading ? "..." : counts.total_receptionists}
           </span>
         </div>
         <div onClick={()=> navigate('/all-patients')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
@@ -30,7 +30,7 @@ function AllStaffs({counts}) {
             Total Patients
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {counts.total_patients}
+            {loading ? "..." : counts.total_patients}
           </span>
         </div>
         <div onClick={()=> navigate('/appointments')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
@@ -38,7 +38,7 @@ function AllStaffs({counts}) {
             Total Appointments
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {counts.total_appointments}
+            {loading ? "..." : counts.total_appointments}
           </span>
         </div>
       </div>

@@ -31,3 +31,17 @@ export async function apiFetch(endpoint, options = {}) {
   return res.json();
   
 }
+
+const memoryCache = {};
+
+export async function cachedFetch(url) {
+  if (memoryCache[url]) return memoryCache[url];
+
+  const data = await apiFetch(url);
+  memoryCache[url] = data;
+  return data;
+}
+
+export function clearMemoryCache() {
+  Object.keys(memoryCache).forEach(key => delete memoryCache[key]);
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { apiFetch } from '../services/api'
+import { apiFetch, cachedFetch } from '../services/api'
 import { Check, Search, X } from 'react-feather'
 import Loader from '../components/Loader'
 import RecordsForm from '../components/RecordsForm'
@@ -34,7 +34,7 @@ function Upcoming({user}) {
   const fetchAppointments = async () => {
     setLoading(true)
     try {
-      const data = await apiFetch('/appointments/upcoming.php')
+      const data = await cachedFetch('/appointments/upcoming.php')
       setAppointments(data)
     } catch (err) {
       console.error("Failed to load appointments", err)
@@ -90,7 +90,7 @@ function Upcoming({user}) {
 
     const fetchPatient = async () => {
       try {
-        const data = await apiFetch(
+        const data = await cachedFetch(
           `/patients/single.php?patient_id=${appointment.patient_id}`
         )
         setPatientDetails(data)
@@ -110,7 +110,7 @@ function Upcoming({user}) {
     const fetchRecords = async () => {
       setRecordsLoading(true)
       try {
-        const data = await apiFetch(
+        const data = await cachedFetch(
           `/records/by-patient.php?patient_id=${appointment.patient_id}`
         )
         setRecords(data)

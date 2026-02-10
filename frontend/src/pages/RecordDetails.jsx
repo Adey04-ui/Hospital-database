@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
-import { apiFetch } from '../services/api'
+import { cachedFetch } from '../services/api'
 import RelativeLoader from '../components/RelativeLoader'
 import Unauthorized from '../components/Unauthorized'
 import { ArrowLeft } from 'react-feather'
@@ -13,7 +13,7 @@ function RecordDetails({user}) {
   useEffect(() => {
     const fetchRecord = async () => {
       try {
-        const data = await apiFetch(`/records/single.php?id=${id}`)
+        const data = await cachedFetch(`/records/single.php?id=${id}`)
         setRecord(data)
       } catch (err) {
         console.error("Failed to load record", err)

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { apiFetch } from "../services/api"
+import { apiFetch, cachedFetch } from "../services/api"
 import Unauthorized from "../components/Unauthorized"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import dayjs from "dayjs"
@@ -59,13 +59,13 @@ export default function BookAppointment({ user }) {
 }, [form.appointment_date])
 
   useEffect(() => {
-    apiFetch("/departments/list.php")
+    cachedFetch("/departments/list.php")
       .then(setDepartments)
       .catch(console.error)
   }, [])
 
   useEffect(() => {
-    apiFetch("/patients/list.php")
+    cachedFetch("/patients/list.php")
       .then(setPatients)
       .catch(console.error)
   }, [])
@@ -73,7 +73,7 @@ export default function BookAppointment({ user }) {
   useEffect(() => {
     if (!selectedDepartment) return
 
-    apiFetch(`/doctors/by-department.php?department_id=${selectedDepartment}`)
+    cachedFetch(`/doctors/by-department.php?department_id=${selectedDepartment}`)
       .then(setDoctors)
       .catch(console.error)
   }, [selectedDepartment])

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import Greeting from '../components/Greeting'
 import AllStaffs from '../components/AllStaffs'
 import AppointmentComponent from '../components/AppointmentComponent'
-import { apiFetch } from '../services/api'
+import { apiFetch, cachedFetch } from '../services/api'
 import ThirdTab from '../components/ThirdTab'
 import AllAppointmentDetails from '../components/AllAppointmentDetails'
 
@@ -20,7 +20,7 @@ function AdminDashboard({user}) {
       useEffect(()=> {
         const fetchDoctors = async () => {
           try {
-            const res = await apiFetch('/doctors/list.php')
+            const res = await cachedFetch('/doctors/list.php')
             setDoctors(res)
           } catch (error) {
             console.error(error)
@@ -30,7 +30,7 @@ function AdminDashboard({user}) {
         }
         const fetchReceptionists = async () => {
           try {
-            const res = await apiFetch('/receptionists/list.php')
+            const res = await cachedFetch('/receptionists/list.php')
             setReceptionists(res)
           } catch (error) {
             console.error(error)
@@ -40,7 +40,7 @@ function AdminDashboard({user}) {
         }
         const fetchPatients = async () => {
           try {
-            const res = await apiFetch('/patients/list.php')
+            const res = await cachedFetch('/patients/list.php')
             setPatients(res)
           } catch (error) {
             console.error(error)
@@ -50,7 +50,7 @@ function AdminDashboard({user}) {
         }
         const fetchAppointments = async () => {
           try {
-            const res = await apiFetch('/appointments/list.php')
+            const res = await cachedFetch('/appointments/list.php')
             setAppointments(res)
           } catch (error) {
             console.error(error)
@@ -72,6 +72,8 @@ function AdminDashboard({user}) {
             setCounts(res)
           } catch (error) {
             console.error("Error fetching admin counts:", error)
+          } finally {
+            setLoading(false)
           }
         }
     
@@ -82,7 +84,7 @@ function AdminDashboard({user}) {
   return (
     <div className="full-container" style={{padding: '30px 40px'}}>
       <Greeting user={user} />
-          <AllStaffs counts={counts} doctors={doctors} receptionists={receptionists} appointments={appointments} patients={patients} />
+          <AllStaffs counts={counts} loading={loading} doctors={doctors} receptionists={receptionists} appointments={appointments} patients={patients} />
           <AppointmentComponent appointments={appointments} />
           <ThirdTab />
     </div>

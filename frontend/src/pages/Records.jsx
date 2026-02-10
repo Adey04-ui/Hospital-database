@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { apiFetch } from '../services/api'
+import { cachedFetch } from '../services/api'
 import { Search } from 'react-feather'
 import RelativeLoader from '../components/RelativeLoader'
 import Loader from '../components/Loader'
@@ -16,7 +16,7 @@ function Records({user}) {
   useEffect(()=> {
     const fetchRecords = async () => {
       try {
-        const res = await apiFetch('/records/list.php')
+        const res = await cachedFetch('/records/list.php')
         setRecords(res)
       } catch (error) {
         console.error(error)

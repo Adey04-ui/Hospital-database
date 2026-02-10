@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import { apiFetch } from '../services/api'
+import { cachedFetch } from '../services/api'
 
 function AppointmentComponentDoctors({ appointments}) {
   const navigate = useNavigate()
@@ -9,7 +9,7 @@ function AppointmentComponentDoctors({ appointments}) {
   useEffect(()=> {
     const fetchTodayAppointments = async () => {
       try {
-        const data = await apiFetch('/appointments/list.php?day=today')
+        const data = await cachedFetch('/appointments/list.php?day=today')
         setTodayAppointments(data)
       } catch (error) {
         console.error("Error fetching today's appointments:", error)

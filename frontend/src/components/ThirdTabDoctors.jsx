@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import { apiFetch } from '../services/api'
+import { cachedFetch } from '../services/api'
 
 function ThirdTabDoctors() {
   const [records, setRecords] = useState([])
@@ -8,7 +8,7 @@ function ThirdTabDoctors() {
     useEffect(()=> {
       const fetchRecords = async () => {
         try {
-          const res = await apiFetch('/records/list.php')
+          const res = await cachedFetch('/records/list.php')
           setRecords(res)
         } catch (err) {
           console.error(err)
@@ -16,7 +16,7 @@ function ThirdTabDoctors() {
       }
       const fetchAppointments = async () => {
         try {
-          const res = await apiFetch('/appointments/upcoming.php')
+          const res = await cachedFetch('/appointments/upcoming.php')
           setAppointments(res)
         } catch (err) {
           console.error(err)

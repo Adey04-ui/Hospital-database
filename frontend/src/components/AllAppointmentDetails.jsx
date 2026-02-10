@@ -1,7 +1,7 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 
-function AllAppointmentDetails({counts}) {
+function AllAppointmentDetails({counts, loading}) {
   const navigate = useNavigate()
   
   return (
@@ -15,7 +15,7 @@ function AllAppointmentDetails({counts}) {
             Today's Appointments
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {counts.today_appointments}
+            {loading ? "..." : counts.today_appointments}
           </span>
         </div>
         <div onClick={()=> navigate('/upcoming')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
@@ -23,7 +23,7 @@ function AllAppointmentDetails({counts}) {
             Upcoming Appointments
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {counts.upcoming_appointments}
+            {loading ? "..." : counts.upcoming_appointments}
           </span>
         </div>
         <div onClick={()=> navigate('/appointments')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
@@ -31,7 +31,7 @@ function AllAppointmentDetails({counts}) {
             Completed appoitments
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {counts.completed_appointments}
+            {loading ? "..." : counts.completed_appointments}
           </span>
         </div>
         <div onClick={()=> navigate('/appointments')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
@@ -39,7 +39,7 @@ function AllAppointmentDetails({counts}) {
             Cancelled Appointments
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {counts.cancelled_appointments}
+            {loading ? "..." : counts.cancelled_appointments}
           </span>
         </div>
       </div>

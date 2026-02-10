@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { apiFetch } from '../services/api'
+import { cachedFetch } from '../services/api'
 import { Search } from 'react-feather'
 import RelativeLoader from '../components/RelativeLoader'
 import Loader from '../components/Loader'
@@ -13,7 +13,7 @@ function Receptionists({user}) {
   useEffect(()=> {
     const fetchDoctors = async () => {
       try {
-        const res = await apiFetch('/receptionists/list.php')
+        const res = await cachedFetch('/receptionists/list.php')
         setReceptionists(res)
       } catch (error) {
         console.error(error)
