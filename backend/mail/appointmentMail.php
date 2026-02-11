@@ -1,6 +1,27 @@
 <?php
 require_once "../config/header.php";
 require_once "../loadenv.php";
+
+header("Content-Type: application/json");
+
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid request method"
+    ]);
+    exit;
+}
+
+$input = json_decode(file_get_contents("php://input"), true);
+
+if (!$input) {
+    echo json_encode([
+        "success" => false,
+        "message" => "No data received"
+    ]);
+    exit;
+}
+
 function sendMailViaService($payload) {
     $ch = curl_init('https://hospital-database-j5za.onrender.com/appointmentMail.php');
 
@@ -15,24 +36,27 @@ function sendMailViaService($payload) {
     ]);
 
     $res = curl_exec($ch);
-    
+
     if ($res === false) {
-        return json_encode([
+        return [
             "success" => false,
             "message" => "Curl error: " . curl_error($ch)
-        ]);
+        ];
     }
 
-    // Ensure we return valid JSON even if remote server fails
     $decoded = json_decode($res, true);
+
     if ($decoded === null) {
-        return json_encode([
+        return [
             "success" => false,
             "message" => "Invalid JSON from mail server",
             "raw" => $res
-        ]);
+        ];
     }
 
-    return json_encode($decoded);
+    return $decoded;
 }
-?>
+
+$result = sendMailViaService($input);
+
+echo json_encode($result);

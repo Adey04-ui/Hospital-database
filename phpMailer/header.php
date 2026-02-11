@@ -8,3 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+if (($headers['x-mail-key'] ?? '') !== getenv('MAIL_SERVICE_KEY')) {
+    http_response_code(401);
+    echo json_encode(["message" => "Unauthorized"]);
+    exit;
+}
