@@ -12,23 +12,18 @@ export async function apiFetch(endpoint, options = {}) {
   });
 
   
-   const text = await res.text()
-   console.log("RAW RESPONSE:", text)
-
-   if(res.ok) {
-     try {
-      return JSON.parse(text)
-    } catch {
-      throw new Error("Backend did not return JSON")
-    }
-   }
+   const text = await res.text();
+  console.log("RAW RESPONSE:", text);
 
   if (!res.ok) {
-    const err = await res.json();
-     throw new Error(err.message || "Request failed")
+    throw new Error(text || "Request failed");
   }
 
-  return res.json();
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Backend did not return JSON");
+  }
   
 }
 
