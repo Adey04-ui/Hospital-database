@@ -2,61 +2,153 @@
 require_once "../config/header.php";
 require_once "../loadenv.php";
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 header("Content-Type: application/json");
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode([
-        "success" => false,
-        "message" => "Invalid request method"
-    ]);
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (!$data || !is_array($data)) {
+    http_response_code(400);
+    echo json_encode(["message" => "Invalid or missing JSON data"]);
     exit;
 }
 
-$input = json_decode(file_get_contents("php://input"), true);
+$recipientEmail = trim($data['email'] ?? '');
+$recipientName = trim($data['full_name'] ??'');
+$appointment_id = (int) ($data['appointment_id'] ?? 0);
+$doctor_name = trim($data['doctor_name'] ??'');
+$date = trim($data['date'] ??'');
 
-if (!$input) {
-    echo json_encode([
-        "success" => false,
-        "message" => "No data received"
-    ]);
+if ($recipientEmail === '' || $recipientName === '' || $appointment_id === 0) {
+    http_response_code(400);
+    echo json_encode(["message" => "missing required mail data"]);
     exit;
-}
+  }
 
-function sendMailViaService($payload) {
-    $ch = curl_init('https://hospital-database-j5za.onrender.com/appointmentMail.php');
+  $body = "
+    <div style='font-family: Arial, sans-serif; line-height: 1.6'>
+        <p style='color: #030390; font-weight: 500; font-size: 17px;'>Hospital name</p>
+        <p>Good day <strong>{$recipientName}</strong>,</p>
 
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => [
-            "Content-Type: application/json",
-            "X-Mail-Key: " . getenv('MAIL_SERVICE_KEY')
-        ],
-        CURLOPT_POSTFIELDS => json_encode($payload),
-        CURLOPT_RETURNTRANSFER => true
+        <p>
+        You have successfully been booked for an appointment with {$doctor_name} at <strong>Hospital Name</strong> on {$date}.
+        </p>
+
+        <p>
+        <strong>Your appointment ID:</strong> {$appointment_id}
+        </p>
+
+        <p>
+        Please keep this ID safe, as it will be required for you to be attended to.
+        </p>
+
+        <p>
+        Regards,<br>
+        Hospital Name
+        </p>
+    </div>
+    ";
+
+$mail = new PHPMailer(true);
+
+try {
+    // ── SMTP Settings ────────────────────────────────────────
+    $mail->isSMTP();
+    $mail->Host       = getenv('MAIL_HOST');
+    $mail->SMTPAuth   = true;
+    $mail->Username   = getenv('MAIL_USER');
+    $mail->Password   = getenv('MAIL_PASS');
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
+
+    // Recipients
+    $mail->setFrom(getenv('MAIL_USER'), 'Hospital Name');
+    $mail->addAddress($recipientEmail, $recipientName);
+
+    // Content
+    $mail->isHTML(true);
+    $mail->Subject = 'Appointment booked successfully';
+    $mail->Body    = $body;
+
+    $mail->send();
+
+    // Success via SMTP (local dev)
+    echo json_encode([
+        "message"     => "Mail successfully sent via SMTP",
+        "patient_id"  => $patient_id
     ]);
 
-    $res = curl_exec($ch);
+} catch (Exception $e) {
+    $errorMsg = $mail->ErrorInfo;
 
-    if ($res === false) {
-        return [
-            "success" => false,
-            "message" => "Curl error: " . curl_error($ch)
+    // Check if it's a network/connection failure → fallback to API
+    $isConnectionError = stripos($errorMsg, 'Could not connect') !== false ||
+                         stripos($errorMsg, 'Failed to connect') !== false ||
+                         stripos($errorMsg, 'Network is unreachable') !== false ||
+                         stripos($errorMsg, 'Connection timed out') !== false;
+
+    if ($isConnectionError) {
+        // ── Fallback: Brevo API ─────────────────────────────────
+        $apiKey = getenv('BREVO_API_KEY');
+        if (!$apiKey) {
+            http_response_code(500);
+            echo json_encode(["message" => "Brevo API key not configured"]);
+            exit;
+        }
+
+        $payload = [
+            'sender' => [
+                'name'  => 'Hospital Name',
+                'email' => getenv('MAIL_USER') ?: 'kehindeodukoyaade@gmail.com' 
+            ],
+            'to' => [
+                ['email' => $recipientEmail, 'name' => $recipientName]
+            ],
+            'subject'     => 'Appointment booked successfully',
+            'htmlContent' => $body,
         ];
+
+        $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+        curl_setopt_array($ch, [
+            CURLOPT_HTTPHEADER => [
+                'accept: application/json',
+                'api-key: ' . $apiKey,
+                'content-type: application/json'
+            ],
+            CURLOPT_POST       => true,
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT    => 15,
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+
+        if ($httpCode >= 200 && $httpCode < 300) {
+            echo json_encode([
+                "message"    => "Mail successfully sent via Brevo API (SMTP fallback)",
+                "patient_id" => $patient_id
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode([
+                "message" => "Brevo fallback failed (HTTP $httpCode): " . ($response ?: $curlError)
+            ]);
+        }
+    } else {
+        // Non-connection SMTP error (bad creds, invalid email, etc.) → don't fallback
+        http_response_code(500);
+        echo json_encode([
+            "message" => "Mail could not be sent via SMTP: " . $errorMsg
+        ]);
     }
-
-    $decoded = json_decode($res, true);
-
-    if ($decoded === null) {
-        return [
-            "success" => false,
-            "message" => "Invalid JSON from mail server",
-            "raw" => $res
-        ];
-    }
-
-    return $decoded;
 }
-
-$result = sendMailViaService($input);
-
-echo json_encode($result);
+?>
