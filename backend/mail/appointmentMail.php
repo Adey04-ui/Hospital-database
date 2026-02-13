@@ -81,7 +81,7 @@ try {
     // Success via SMTP (local dev)
     echo json_encode([
         "message"     => "Mail successfully sent via SMTP",
-        "patient_id"  => $patient_id
+        "appointment_id"  => $appointment_id
     ]);
 
 } catch (Exception $e) {
