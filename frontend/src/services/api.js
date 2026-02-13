@@ -15,14 +15,14 @@ export async function apiFetch(endpoint, options = {}) {
 
   
    const text = await res.text();
-  console.log("RAW RESPONSE:", text);
+  // console.log("RAW RESPONSE:", text);
 
   if (!res.ok) {
     throw new Error(text || "Request failed");
   }
 
   try {
-    return JSON.parse(text);
+    return JSON.parse(text ?? res);
   } catch {
     throw new Error("Backend did not return JSON");
   }

@@ -111,10 +111,9 @@ export default function BookAppointment({ user }) {
         appointment_date: ""
       })
       setSelectedDepartment("")
-      setDoctors([])
-      setPatients([])
       setSelectedPatient(null)
       setSelectedDoctor(null)
+      setDoctors([])
 
     } catch (err) {
       console.log(err.message || "Failed to book appointment")

@@ -135,7 +135,7 @@ try {
         if ($httpCode >= 200 && $httpCode < 300) {
             echo json_encode([
                 "message"    => "Mail successfully sent via Brevo API (SMTP fallback)",
-                "patient_id" => $patient_id
+                "appointment_id" => $appointment_id
             ]);
         } else {
             http_response_code(500);
