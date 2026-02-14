@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiFetch, clearMemoryCache } from '../services/api'
 import { useDispatch } from 'react-redux'
@@ -46,7 +46,7 @@ function Sidebar({user}) {
         </ul>
       </div>
       <div className="logout">
-        <button onClick={handleLogout}><LogOut size={20} /> {user && 'log out'}</button>
+        <button onClick={handleLogout}>{user && (<><LogOut size={20} /> <span>log out</span></>)}</button>
       </div>
     </div>
   )

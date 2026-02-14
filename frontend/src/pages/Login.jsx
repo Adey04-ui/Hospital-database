@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { apiFetch } from '../services/api'
 import { useNavigate } from 'react-router-dom'
 import { setUser } from '../features/userSlice'
@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import TextField from "@mui/material/TextField"
 import { ThreeDots } from 'react-loader-spinner'
 
-function Login() {
+function Login({ user }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -15,6 +15,11 @@ function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [user, navigate])
   
 
   async function handleLogin(e) {
