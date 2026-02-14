@@ -23,6 +23,8 @@ import Receptionists from './pages/Receptionists'
 import Today from './pages/Today'
 import Upcoming from './pages/Upcoming'
 import RelativeLoader from './components/RelativeLoader'
+import EditDoctor from './pages/EditDoctor'
+import EditReceptionist from './pages/EditReceptionist'
 
 function App() {
   const dispatch = useDispatch()
@@ -69,6 +71,8 @@ function App() {
         <Route path="/loader" element={<Unauthorized />} />
         <Route path="/sidebar" element={<Sidebar user={user1} />} />
         <Route path="/upcoming" element={<Upcoming user={user1} />} />
+        <Route path="/edit-doctor/:id" element={<EditDoctor user={user1} />} />
+        <Route path="/edit-receptionist/:id" element={<EditReceptionist user={user1} />} />
         <Route path="/book-appointment" element={<BookAppointment user={user1} />} />
       </Routes>
     </>

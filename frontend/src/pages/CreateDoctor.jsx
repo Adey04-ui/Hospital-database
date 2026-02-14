@@ -8,6 +8,8 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogActions from "@mui/material/DialogActions"
 import Unauthorized from "../components/Unauthorized"
 import Autocomplete from "@mui/material/Autocomplete"
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
 
 export default function CreateDoctor({ user }) {
   const [departments, setDepartments] = useState([])
@@ -17,6 +19,8 @@ export default function CreateDoctor({ user }) {
     email: "",
     password: "",
     phone: "",
+    shift_start: "",
+    shift_end: "",
   })
 
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -120,6 +124,42 @@ export default function CreateDoctor({ user }) {
           )}
         />
 
+        <TimePicker
+          label="Shift Starts"
+          ampm={false}
+          value={form.shift_start ? dayjs(form.shift_start, "HH:mm") : null}
+          onChange={(newValue) =>
+            setForm({
+              ...form,
+              shift_end: newValue ? newValue.format("HH:mm") : ""
+            })
+          }
+          slotProps={{
+            textField: {
+              fullWidth: true,
+              required: true
+            }
+          }}
+        />
+
+        <TimePicker
+          label="Shift Ends"
+          ampm={false}
+          value={form.shift_end ? dayjs(form.shift_end, "HH:mm") : null}
+          onChange={(newValue) =>
+            setForm({
+              ...form,
+              shift_end: newValue ? newValue.format("HH:mm") : ""
+            })
+          }
+          slotProps={{
+            textField: {
+              fullWidth: true,
+              required: true
+            }
+          }}
+        />
+
         <TextField
           label="Password"
           value={form.password}
@@ -128,6 +168,7 @@ export default function CreateDoctor({ user }) {
           required
           fullWidth
         />
+        
 
         <button type="submit" className="bookSubmit">
           Create Doctor

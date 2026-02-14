@@ -11,8 +11,10 @@
   $phone          = $data['phone'] ?? '';
   $department_id  = (int) ($data['department_id'] ?? 0);
   $specialization = trim($data['specialization'] ?? '');
+  $shift_start    = $data['shift_start'] ?? '';
+  $shift_end      = $data['shift_end'] ?? '';
 
-  if ($full_name === '' || $email === '' || $password === '' || $department_id === 0) {
+  if ($full_name === '' || $email === '' || $password === '' || $department_id === 0 || $shift_end === '' || $shift_start === '') {
     http_response_code(400);
     echo json_encode(["message" => "Missing required fields"]);
     exit;
@@ -48,8 +50,8 @@
   }
 
   $doctorSql = "
-  INSERT INTO doctors (user_id, department_id, specialization)
-  VALUES ($user_id, $department_id, '$specialization')
+  INSERT INTO doctors (user_id, department_id, specialization, shift_start, shift_end)
+  VALUES ($user_id, $department_id, '$specialization', '$shift_start', '$shift_end')
   ";
 
   if (!mysqli_query($conn, $doctorSql)) {
