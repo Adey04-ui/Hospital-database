@@ -1,99 +1,101 @@
-import { useState } from "react"
-import { apiFetch, cachedFetch } from "../services/api"
+import { useState, useEffect } from "react"
+import { apiFetch } from "../services/api"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Dialog from "@mui/material/Dialog"
 import DialogTitle from "@mui/material/DialogTitle"
 import DialogContent from "@mui/material/DialogContent"
 import DialogActions from "@mui/material/DialogActions"
-import { DatePicker } from "@mui/x-date-pickers/DatePicker"
-import dayjs from "dayjs"
 import Unauthorized from "../components/Unauthorized"
+import Autocomplete from "@mui/material/Autocomplete"
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
+import { useParams } from "react-router-dom"
 import FormControl from "@mui/material/FormControl"
 import InputLabel from "@mui/material/InputLabel"
 import Select from "@mui/material/Select"
 import MenuItem from "@mui/material/MenuItem"
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 
-export default function CreatePatient({ user }) {
+export default function EditPatient({ user }) {
+  const [patient, setPatient] = useState({})
+  const {id} = useParams()
   const [form, setForm] = useState({
     full_name: "",
+    email: "",
     gender: "",
     date_of_birth: "",
     phone: "",
     address: "",
-    email: "",
+    patient_user_id: "",
   })
 
-  const [mail, setMail] = useState({
-    full_name: "",
-    email: "",
-  })
+
+  useEffect(() => {
+    apiFetch(`/patients/edit.php?id=${id}`)
+      .then((data) => {
+        setPatient(data);
+
+        const updatedForm = {
+          full_name: data?.full_name || "",   
+          email: data?.email || "",
+          phone: data?.phone || "",
+          gender: data.gender || "",
+          date_of_birth: data.date_of_birth || "",
+          address: data.address || "",
+        };
+
+        setForm(updatedForm);
+      })
+      .catch((err) => {
+        console.error("Fetch failed:", err);
+      });
+  }, [id]);
 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [message, setMessage] = useState("")
 
-  if (!["admin", "receptionist"].includes(user.role)) {
-    return <Unauthorized />
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    console.log(JSON.stringify(form))
 
     try {
-      const res = await apiFetch("/patients/create.php", {
+      const res = await apiFetch(`/patients/edit.php?id=${id}`, {
         method: "POST",
         body: JSON.stringify(form),
       })
 
-      const patientId = res.patient_id
-
-      const mailRes = await apiFetch("/mail/sendMail.php", {
-        method: "POST",
-        body: JSON.stringify({
-          ...mail,
-          patient_id: Number(patientId)
-        }),
-      })
-
-
-      setMessage(res.message || "Patient registered successfully")
+      setMessage(res.message || "Patient updated successfully")
       setDialogOpen(true)
-
-      console.log(mailRes.message)
 
       // reset form
       setForm({
-        full_name: "",
-        gender: "",
-        date_of_birth: "",
-        phone: "",
-        address: "",
-        email: "",
-      })
-
-
-      setMail({
-        full_name: "",
-        email: "",
+        full_name: patient?.full_name || "",
+        email: patient?.email || "",
+        password: "",
+        phone: patient?.phone || "",
+        shift_start: patient?.shift_start || "",
+        shift_end: patient?.shift_end || ""
       })
     } catch (err) {
-      alert(err.message || "Failed to create patient")
+      console.log(err.message || "Failed to update patient")
     }
+  }
+
+  if (!["admin"].includes(user.role)) {
+    return <Unauthorized />
   }
 
   return (
     <div className="full-container" style={{maxHeight: 'calc(100vh)'}}>
-      <form onSubmit={handleSubmit} className="book-appointment" style={{width: '500px'}}>
-        <h2>Register New Patient</h2>
+      <form onSubmit={handleSubmit} className="book-appointment">
+        <h2>Edit Patient</h2>
 
         <TextField
-          label="Full Name"
-          value={form.full_name}
+          label={form.full_name === "" ? "Full Name" : ""}
+          value={form.full_name == "" ? patient?.full_name : form.full_name}
           onChange={(e) => {
             setForm({ ...form, full_name: e.target.value })
-            setMail({ ...mail, full_name: e.target.value })
           }}
           required
           fullWidth
@@ -103,8 +105,8 @@ export default function CreatePatient({ user }) {
           <InputLabel id="gender-label">Gender</InputLabel>
           <Select
             labelId="gender-label"
-            value={form.gender}
-            label="Gender"
+            value={form.gender == "" ? patient?.gender : form.gender}
+            label={form.gender === "" ? "Gender" : ""}
             onChange={(e) => setForm({ ...form, gender: e.target.value })}
           >
             <MenuItem value=""><em>Select Gender</em></MenuItem>
@@ -115,36 +117,36 @@ export default function CreatePatient({ user }) {
         </FormControl>
 
         <DatePicker
-          label="Date of Birth"
-          value={form.date_of_birth ? dayjs(form.date_of_birth) : null}
+          label={form.date_of_birth === "" ? "Date of birth" : ""}
+          value={form.date_of_birth == "" ? dayjs(patient?.date_of_birth) : dayjs(form.date_of_birth)}
           onChange={(newValue) => {
             if (!newValue) return
             setForm({ ...form, date_of_birth: newValue.format("YYYY-MM-DD") })
           }}
-          maxDate={dayjs()} // can't select future date
+          maxDate={dayjs()}
           renderInput={(params) => <TextField {...params} required fullWidth />}
         />
 
         <TextField
-          label="Email"
-          value={form.email}
-          onChange={(e) => {
-            setForm({ ...form, email: e.target.value })
-            setMail({ ...mail, email: e.target.value })
-          }}
+          label={form.email === "" ? "Email" : ""}
+          value={form.email == "" ? patient?.email : form.email}
+          type="email"
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
           fullWidth
         />
 
         <TextField
-          label="Phone number"
-          value={form.phone}
+          label={form.phone === "" ? "Phone Number" : ""}
+          value={form.phone == "" ? patient?.phone : form.phone}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          required
           fullWidth
         />
 
         <TextField
-          label="Address"
-          value={form.address}
+          label={form.address === "" ? "Address" : ""}
+          value={form.address == "" ? patient?.address : form.address}
           onChange={(e) => setForm({ ...form, address: e.target.value })}
           multiline
           rows={3}
@@ -152,7 +154,7 @@ export default function CreatePatient({ user }) {
         />
 
         <button type="submit" className="bookSubmit">
-          Create Patient
+          Edit Patient
         </button>
       </form>
 

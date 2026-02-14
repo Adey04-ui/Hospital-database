@@ -25,6 +25,7 @@ import Upcoming from './pages/Upcoming'
 import RelativeLoader from './components/RelativeLoader'
 import EditDoctor from './pages/EditDoctor'
 import EditReceptionist from './pages/EditReceptionist'
+import EditPatient from './pages/EditPatients'
 
 function App() {
   const dispatch = useDispatch()
@@ -73,6 +74,7 @@ function App() {
         <Route path="/upcoming" element={<Upcoming user={user1} />} />
         <Route path="/edit-doctor/:id" element={<EditDoctor user={user1} />} />
         <Route path="/edit-receptionist/:id" element={<EditReceptionist user={user1} />} />
+        <Route path="/edit-patient/:id" element={<EditPatient user={user1} />} />
         <Route path="/book-appointment" element={<BookAppointment user={user1} />} />
       </Routes>
     </>

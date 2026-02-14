@@ -29,7 +29,6 @@ export default function EditDoctor({ user }) {
   useEffect(() => {
     apiFetch(`/doctors/edit.php?id=${id}`)
       .then((data) => {
-        console.log("Raw fetched data from backend:", data);  
         setDoctor(data);
 
         const updatedForm = {
@@ -42,7 +41,6 @@ export default function EditDoctor({ user }) {
           doctor_user_id: data?.doctor?.user_id
         };
 
-        console.log("About to set form to:", updatedForm);
         setForm(updatedForm);
       })
       .catch((err) => {
@@ -55,8 +53,6 @@ export default function EditDoctor({ user }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    console.log(JSON.stringify(form))
 
     try {
       const res = await apiFetch(`/doctors/edit.php?id=${id}`, {
@@ -76,7 +72,6 @@ export default function EditDoctor({ user }) {
         shift_start: doctor?.doctor?.shift_start || "",
         shift_end: doctor?.doctor?.shift_end || ""
       })
-      console.log(form)
     } catch (err) {
       console.log(err.message || "Failed to update doctor")
     }

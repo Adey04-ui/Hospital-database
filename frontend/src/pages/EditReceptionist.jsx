@@ -26,7 +26,6 @@ export default function EditReceptionist({ user }) {
   useEffect(() => {
     apiFetch(`/receptionists/edit.php?id=${id}`)
       .then((data) => {
-        console.log("Raw fetched data from backend:", data);  
         setReceptionist(data);
 
         const updatedForm = {
@@ -37,7 +36,6 @@ export default function EditReceptionist({ user }) {
           receptionist_user_id: data?.user_id
         };
 
-        console.log("About to set form to:", updatedForm);
         setForm(updatedForm);
       })
       .catch((err) => {
@@ -50,8 +48,6 @@ export default function EditReceptionist({ user }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    console.log(JSON.stringify(form))
 
     try {
       const res = await apiFetch(`/receptionists/edit.php?id=${id}`, {
@@ -70,7 +66,6 @@ export default function EditReceptionist({ user }) {
         password: "",
         phone: receptionist?.phone || "",
       })
-      console.log(form)
     } catch (err) {
       console.log(err.message || "Failed to update receptionist")
     }
