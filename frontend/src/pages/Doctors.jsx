@@ -4,11 +4,14 @@ import { Search } from 'react-feather'
 import RelativeLoader from '../components/RelativeLoader'
 import Loader from '../components/Loader'
 import Unauthorized from '../components/Unauthorized'
+import { useNavigate } from 'react-router-dom'
 
 function Doctors({user}) {
   const [loading, setLoading] = useState(true)
   const [doctors, setDoctors] = useState([])
   const [search, setSearch] = useState("")
+
+  const navigate = useNavigate()
 
   useEffect(()=> {
     const fetchDoctors = async () => {
@@ -63,6 +66,7 @@ function Doctors({user}) {
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Specialization</span>
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Shift starts</span>
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Shift ends</span>
+          <span style={{width: '10%', fontSize: '17px', fontWeight: 500,}}>Action</span>
         </div>
         <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
           {filteredDoctors.map((doctor, index) => (
@@ -84,6 +88,9 @@ function Doctors({user}) {
               </span>
               <span style={{width: '16%', fontSize: '16px',}}>
                 {doctor.shift_end}
+              </span>
+              <span style={{width: '10%', fontSize: '16px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-doctor/${doctor.id}`)}>
+                Edit
               </span>
             </div>
           ))}

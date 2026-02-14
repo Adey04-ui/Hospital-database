@@ -4,11 +4,14 @@ import { Search } from 'react-feather'
 import RelativeLoader from '../components/RelativeLoader'
 import Loader from '../components/Loader'
 import Unauthorized from '../components/Unauthorized'
+import { useNavigate } from 'react-router-dom'
 
 function Patients({user}) {
   const [loading, setLoading] = useState(true)
   const [patients, setPatients] = useState([])
   const [search, setSearch] = useState("")
+
+  const navigate = useNavigate()
 
   useEffect(()=> {
     const fetchDoctors = async () => {
@@ -62,6 +65,7 @@ function Patients({user}) {
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Email</span>
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Phone Number</span>
           <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Date of Birth</span>
+          <span style={{width: '5%', fontSize: '17px', fontWeight: 500,}}>Action</span>
         </div>
         <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
           {filteredPatients.map((patient, index) => (
@@ -83,6 +87,9 @@ function Patients({user}) {
               </span>
               <span style={{width: '16%', fontSize: '16px',}}>
                 {patient.date_of_birth}
+              </span>
+              <span style={{width: '5%', fontSize: '16px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-patient/${patient.id}`)}>
+                Edit
               </span>
             </div>
           ))}
