@@ -142,6 +142,16 @@ CREATE TABLE patient_records (
   FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE CASCADE
 );
 
+CREATE TABLE reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+
+  full_name TEXT NOT NULL,
+  stars INT NOT NULL,
+  message TEXT,
+
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO roles (name) VALUES
 ('admin'),
 ('doctor'),

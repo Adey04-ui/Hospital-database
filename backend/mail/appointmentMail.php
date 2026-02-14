@@ -10,6 +10,7 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 header("Content-Type: application/json");
+$env = getenv("ENV");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -56,44 +57,40 @@ if ($recipientEmail === '' || $recipientName === '' || $appointment_id === 0) {
     ";
 
 $mail = new PHPMailer(true);
+if($env == "development") {
+    try {
+        // ── SMTP Settings ────────────────────────────────────────
+        $mail->isSMTP();
+        $mail->Host       = getenv('MAIL_HOST');
+        $mail->SMTPAuth   = true;
+        $mail->Username   = getenv('MAIL_USER');
+        $mail->Password   = getenv('MAIL_PASS');
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
-try {
-    // ── SMTP Settings ────────────────────────────────────────
-    $mail->isSMTP();
-    $mail->Host       = getenv('MAIL_HOST');
-    $mail->SMTPAuth   = true;
-    $mail->Username   = getenv('MAIL_USER');
-    $mail->Password   = getenv('MAIL_PASS');
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587;
+        // Recipients
+        $mail->setFrom(getenv('MAIL_USER'), 'Hospital Name');
+        $mail->addAddress($recipientEmail, $recipientName);
 
-    // Recipients
-    $mail->setFrom(getenv('MAIL_USER'), 'Hospital Name');
-    $mail->addAddress($recipientEmail, $recipientName);
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Appointment booked successfully';
+        $mail->Body    = $body;
 
-    // Content
-    $mail->isHTML(true);
-    $mail->Subject = 'Appointment booked successfully';
-    $mail->Body    = $body;
+        $mail->send();
 
-    $mail->send();
+        // Success via SMTP (local dev)
+        echo json_encode([
+            "message"     => "Mail successfully sent via SMTP",
+            "appointment_id"  => $appointment_id
+        ]);
 
-    // Success via SMTP (local dev)
-    echo json_encode([
-        "message"     => "Mail successfully sent via SMTP",
-        "appointment_id"  => $appointment_id
-    ]);
+    } catch (Exception $e) {
+        $errorMsg = $mail->ErrorInfo;
+    }
+}
 
-} catch (Exception $e) {
-    $errorMsg = $mail->ErrorInfo;
-
-    // Check if it's a network/connection failure → fallback to API
-    $isConnectionError = stripos($errorMsg, 'Could not connect') !== false ||
-                         stripos($errorMsg, 'Failed to connect') !== false ||
-                         stripos($errorMsg, 'Network is unreachable') !== false ||
-                         stripos($errorMsg, 'Connection timed out') !== false;
-
-    if ($isConnectionError) {
+    if ($env == "production") {
         // ── Fallback: Brevo API ─────────────────────────────────
         $apiKey = getenv('BREVO_API_KEY');
         if (!$apiKey) {
@@ -150,5 +147,5 @@ try {
             "message" => "Mail could not be sent via SMTP: " . $errorMsg
         ]);
     }
-}
+
 ?>
