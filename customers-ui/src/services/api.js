@@ -15,7 +15,7 @@ export async function apiFetch(endpoint, options = {}) {
 
   
    const text = await res.text();
-  console.log("RAW RESPONSE:", text);
+  // console.log("RAW RESPONSE:", text);
 
   if (!res.ok) {
     throw new Error(text || "Request failed");

@@ -10,6 +10,7 @@ import Faqs from './pages/Faqs'
 import Resources from './pages/Resources'
 import Contact from './pages/Contact'
 import ScrollToTop from './components/ScrollToTop'
+import { Toaster } from "sonner";
 
 function App() {
   
@@ -29,6 +30,7 @@ function App() {
           <Route path='/services' element={<Services service={service} setService={setService} />} />
         </Routes>
       <Footer />
+      <Toaster position="bottom-right" richColors />
     </>
   )
 }
