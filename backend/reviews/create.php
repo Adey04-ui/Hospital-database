@@ -1,7 +1,7 @@
 <?php
   $allowedOrigins = [
       "http://localhost:5174",
-      ""
+      "https://customer-ui-sable.vercel.app"
   ];
 
   if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
