@@ -189,9 +189,10 @@ function Reviews() {
                 borderRadius: "6px",
                 cursor: "pointer",
               }}
+              disabled={submitting}
               onClick={handleSubmit}
             >
-              Submit
+              {submitting ? "Submitting..." : "Submit Review"}
             </button>
           </div>
           <div
@@ -204,7 +205,7 @@ function Reviews() {
           >
 
             {loading && <p>Loading reviews...</p>}
-            {reviews.length === 0 && <p>No reviews yet.</p>}
+            {!loading && reviews.length === 0 && <p>No reviews yet.</p>}
 
             {reviews.map((review) => (
               <div
