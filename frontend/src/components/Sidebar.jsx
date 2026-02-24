@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiFetch, clearMemoryCache } from '../services/api'
 import { useDispatch } from 'react-redux'
@@ -33,7 +33,7 @@ function Sidebar({user}) {
         <ul>
           <li className={path === "/" ? "active" : ""} onClick={()=> path !== "/" && navigate('/')}><Home size={20} /> home</li>
           <li className={path === "/book-appointment" ? "active" : ""} onClick={()=> path !== "/book-appointment" && navigate('/book-appointment')}><List size={20} /> book apointment</li>
-          <li className={path === "/services" ? "active" : ""}><Activity size={20} /> services</li>
+          <li className={path === "/reviews" ? "active" : ""} onClick={()=> path !== "/reviews" && navigate('/reviews')}><MessageCircle size={20} /> reviews</li>
           <li className={path === "/new-patient" ? "active" : ""} onClick={()=> path !== "/new-patient" && navigate('/new-patient')}><UserPlus size={20} /> new patient</li>
           <li className={path === "/doctors" ? "active" : ""} onClick={()=> path !== "/doctors" &&  navigate('/doctors')}><UserPlus size={20} />new doctors</li>
           <li className={path === "/new-receptionist" ? "active" : ""} onClick={()=> path !== "/new-receptionist" &&  navigate('/new-receptionist')}><UserPlus size={20} />new receptionist</li>
