@@ -12,10 +12,9 @@ export async function apiFetch(endpoint, options = {}) {
     ...(options.headers || {}),
     body: options.body || null,
   });
-
   
    const text = await res.text();
-  console.log("RAW RESPONSE:", text);
+  // console.log("RAW RESPONSE:", text);
 
   if (!res.ok) {
     throw new Error(text || "Request failed");
@@ -26,7 +25,6 @@ export async function apiFetch(endpoint, options = {}) {
   } catch {
     throw new Error("Backend did not return JSON");
   }
-  
 }
 
 const memoryCache = {};

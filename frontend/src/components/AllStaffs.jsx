@@ -33,12 +33,12 @@ function AllStaffs({counts, loading}) {
             {loading ? "..." : counts.total_patients}
           </span>
         </div>
-        <div onClick={()=> navigate('/appointments')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
+        <div onClick={()=> navigate('/reviews')} style={{width: '25%', background: '#f6f6f6', borderRadius: '8px', display: "flex", height: '100%', flexDirection: 'column', justifyContent: 'center', placeItems: 'center', cursor: 'pointer'}}>
           <span style={{fontWeight: 500, fontSize: '1.1em', marginBottom: '10px', color: '#666666'}}>
-            Total Appointments
+            Total Reviews
           </span>
           <span style={{fontWeight: 500, fontSize: '1.4em', color: '#030390'}}>
-            {loading ? "..." : counts.total_appointments}
+            {loading ? "..." : counts.total_reviews}
           </span>
         </div>
       </div>

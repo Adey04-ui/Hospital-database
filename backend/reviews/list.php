@@ -1,7 +1,8 @@
 <?php
   $allowedOrigins = [
       "http://localhost:5174",
-      "https://customer-ui-sable.vercel.app"
+      "https://customer-ui-sable.vercel.app",
+      "http://localhost:5173"
   ];
 
   if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
@@ -25,10 +26,23 @@
   ]);
   require_once "../config/db.php";
 
-      $sql = "
-      SELECT r.id, r.full_name, r.stars, r.message, r.created_at
-      FROM reviews r
-      ";
+  session_start();
+
+  $role = $_SESSION['user']['role'];
+  $user_id = $_SESSION['user']['id'];
+
+  if ($role === "admin") {
+    $sql = "
+    SELECT r.id, r.full_name, r.stars, r.message, r.created_at
+    FROM reviews r
+    ";
+  } else {
+    $sql = "
+    SELECT r.id, r.full_name, r.stars, r.message, r.created_at
+    FROM reviews r
+    LIMIT 5
+    ";
+  } 
 
   $result = mysqli_query($conn, $sql);
 

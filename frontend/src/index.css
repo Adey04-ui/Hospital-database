@@ -344,3 +344,6 @@ body {
 .quick.active {
   height: 170px;
 }
+.delete:hover {
+  background: #b1b1b11f;
+}

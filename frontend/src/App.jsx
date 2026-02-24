@@ -26,6 +26,8 @@ import RelativeLoader from './components/RelativeLoader'
 import EditDoctor from './pages/EditDoctor'
 import EditReceptionist from './pages/EditReceptionist'
 import EditPatient from './pages/EditPatients'
+import Reviews from './pages/Reviews'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   const dispatch = useDispatch()
@@ -54,8 +56,8 @@ function App() {
   return (
     <>
       {/* <Topbar user={user1} /> */}
+      
       <Sidebar user={user1} />
-      {loading && <Loader />}
       <Routes>
         <Route path="/login" element={<Login user={user1} />} />
         <Route path="/" element={<Dashboard user={user1} />} />
@@ -72,11 +74,17 @@ function App() {
         <Route path="/loader" element={<Unauthorized />} />
         <Route path="/sidebar" element={<Sidebar user={user1} />} />
         <Route path="/upcoming" element={<Upcoming user={user1} />} />
+        <Route path="/reviews" element={<Reviews user={user1} />} />
         <Route path="/edit-doctor/:id" element={<EditDoctor user={user1} />} />
         <Route path="/edit-receptionist/:id" element={<EditReceptionist user={user1} />} />
         <Route path="/edit-patient/:id" element={<EditPatient user={user1} />} />
         <Route path="/book-appointment" element={<BookAppointment user={user1} />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="colored" 
+      />
     </>
   )
 }

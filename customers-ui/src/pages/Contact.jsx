@@ -5,13 +5,13 @@ function Contact() {
   return (
     <>
       <Header />
-      <div style={{background: '#fff', padding: '100px 0'}}>
+      <div style={{ background: '#fff', padding: '100px 0' }}>
         <div className="contact-container">
-          <span style={{fontSize: '18px', fontWeight: '600', textTransform: 'capitalize', color: '#61ce70'}}>
+          <span style={{ fontSize: '18px', fontWeight: '600', textTransform: 'capitalize', color: '#61ce70' }}>
             send us a message
           </span>
           <div className="contact-us">
-            <span style={{fontSize: '28px', color: '#fff', display: 'flex', justifySelf: 'center'}}>
+            <span style={{ fontSize: '28px', color: '#fff', display: 'flex', justifySelf: 'center' }}>
               Contact-Us
             </span>
             <div className="inputs">

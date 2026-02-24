@@ -11,7 +11,7 @@
 
     $sql = "
       SELECT
-        (SELECT COUNT(*) FROM appointments)     AS total_appointments,
+        (SELECT COUNT(*) FROM reviews)     AS total_reviews,
         (SELECT COUNT(*) FROM patients)         AS total_patients,
         (SELECT COUNT(*) FROM receptionists)    AS total_receptionists,
         (SELECT COUNT(*) FROM doctors)          AS total_doctors

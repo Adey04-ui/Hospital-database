@@ -36,7 +36,7 @@ function Reviews() {
         fill={index < rating ? "gold" : "none"}
         stroke="gold"
       />
-    ));
+    ))
 
   const renderSelectableStars = () =>
     [...Array(5)].map((_, index) => {
@@ -58,25 +58,25 @@ function Reviews() {
       );
     });
 
-    const handleSubmit = async (e) => {
-      e.preventDefault()
-      setSubmitting(true)
-      if (form.full_name.trim() === "") {
-        toast.error("Please add a name")
-        return
-      }
-      if (form.message.trim() === "") {
-        toast.error("Please add a review")
-        return
-      }
-      if (form.stars == 0) {
-        toast.error("Please add a rating")
-        return
-      }
-      try {
-        await apiFetch("/reviews/create.php", {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
+    if (form.full_name.trim() === "") {
+      toast.error("Please add a name")
+      return
+    }
+    if (form.message.trim() === "") {
+      toast.error("Please add a review")
+      return
+    }
+    if (form.stars == 0) {
+      toast.error("Please add a rating")
+      return
+    }
+    try {
+      await apiFetch("/reviews/create.php", {
         method: "POST",
-        body: JSON.stringify(form), 
+        body: JSON.stringify(form),
       })
       setForm({
         full_name: "",
@@ -85,20 +85,20 @@ function Reviews() {
       })
       setReviews(prev => [form, ...prev])
       toast.success("Review submitted successfully!")
-      } catch (error) {
-        toast.error("Failed to submit review. Please try again.")
-      } finally {
-        setSubmitting(false)
-      }
+    } catch (error) {
+      toast.error("Failed to submit review. Please try again.", error)
+    } finally {
+      setSubmitting(false)
     }
+  }
 
-    const formatDateOnly = (timestamp) => {
-      if (!timestamp) return "";
+  const formatDateOnly = (timestamp) => {
+    if (!timestamp) return "";
 
-      const date = new Date(timestamp);
+    const date = new Date(timestamp);
 
-      return date.toISOString().split("T")[0];
-    };
+    return date.toISOString().split("T")[0];
+  }
 
   return (
     <div
@@ -130,9 +130,9 @@ function Reviews() {
             alignItems: "center",
           }}
         >
-          <hr style={{ borderTop: '1px solid #54595f'}} className='horizontal' />
+          <hr style={{ borderTop: '1px solid #54595f' }} className='horizontal' />
           <FaHospitalAlt size={23} />
-          <hr style={{ borderTop: '1px solid #54595f'}} className='horizontal' />
+          <hr style={{ borderTop: '1px solid #54595f' }} className='horizontal' />
         </div>
 
         <div
@@ -160,7 +160,7 @@ function Reviews() {
               type="text"
               placeholder="Full Name"
               value={form.full_name}
-              style={{borderRadius: '6px', padding: '8px', border: '1px solid #ccc', background: '#ffffff9d'}}
+              style={{ borderRadius: '6px', padding: '8px', border: '1px solid #ccc', background: '#ffffff9d' }}
               onChange={(e) =>
                 setForm({ ...form, full_name: e.target.value })
               }
@@ -174,7 +174,7 @@ function Reviews() {
               rows="3"
               placeholder="Write your review..."
               value={form.message}
-              style={{borderRadius: '6px', padding: '8px', border: '1px solid #ccc', background: '#ffffff9d'}}
+              style={{ borderRadius: '6px', padding: '8px', border: '1px solid #ccc', background: '#ffffff9d' }}
               onChange={(e) =>
                 setForm({ ...form, message: e.target.value })
               }
