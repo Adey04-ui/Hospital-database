@@ -16,9 +16,9 @@ function Sidebar({user}) {
 
   const path = location.pathname
 
-  function handleLogout() {
-      apiFetch("/auth/logout.php")
-      clearMemoryCache
+  async function handleLogout() {
+      await apiFetch("/auth/logout.php")
+      clearMemoryCache()
       dispatch(logoutUser())
       navigate("/login")
     }
