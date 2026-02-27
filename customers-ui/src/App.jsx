@@ -19,7 +19,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
-      <Topbar />
+      {/* <Topbar /> */}
       <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
