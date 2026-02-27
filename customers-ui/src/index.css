@@ -151,7 +151,7 @@ footer > div {
   background-size: cover;
 }
 .header1 {
-  background: linear-gradient(#007cb6cc, rgba(0, 123, 182, 0.8)), url('/about.jpg') no-repeat center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.31), rgba(0, 0, 0, 0.31)), url('/about.jpg') no-repeat center center;
   background-size: cover;
   background-color: #007bb6;
 }
