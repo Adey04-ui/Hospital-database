@@ -1,13 +1,10 @@
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { apiFetch } from './services/api'
+import { Routes, Route} from 'react-router-dom'
+import { useState } from 'react'
 
 import BookAppointment from './pages/BookApointement'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Topbar from './components/Topbar'
-import { setUser } from './features/userSlice'
 import Loader from './components/Loader'
 import Unauthorized from './components/Unauthorized'
 import CreatePatient from './pages/CreatePatient'
@@ -30,26 +27,9 @@ import Reviews from './pages/Reviews'
 import { ToastContainer } from 'react-toastify'
 
 function App() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [user1, setUser1] = useState(null)
 
-  useEffect(() => {
-    const handleAuth = async () => {
-      try {
-        const res = await apiFetch('/auth/me.php')
-        setUser1(res.user)
-        dispatch(setUser(res.user))
-      } catch {
-        navigate('/login')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    handleAuth()
-  }, [dispatch, navigate])
 
   if (loading) return <Loader />
 
@@ -60,7 +40,7 @@ function App() {
       <Sidebar user={user1} />
       <Routes>
         <Route path="/login" element={<Login user={user1} />} />
-        <Route path="/" element={<Dashboard user={user1} />} />
+        <Route path="/" element={<Dashboard user={user1} setUser={setUser1} setLoading={setLoading} />} />
         <Route path="/new-patient" element={<CreatePatient user={user1} />} />
         <Route path="/new-receptionist" element={<CreateReceptionist user={user1} />} />
         <Route path="/records" element={<Records user={user1} />} />
