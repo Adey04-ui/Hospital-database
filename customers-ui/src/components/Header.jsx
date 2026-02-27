@@ -50,7 +50,7 @@ function Header() {
   }
   if (path == '/faqs') {
     return (
-      <div style={{display: 'flex', justifyContent: 'center', background: `linear-gradient(#ff252878, #ff252978), url(${one}) no-repeat center center`, backgroundSize: 'cover'}} className='header1'>
+      <div style={{display: 'flex', justifyContent: 'center', background: `linear-gradient(rgba(0, 0, 0, 0.31), rgba(0, 0, 0, 0.31)), url(${one}) no-repeat center center`, backgroundSize: 'cover'}} className='header1'>
         <div style={{width: '75%', display: 'flex', justifyContent: 'space-between', placeItems: 'center'}} className='container-11'>
           <div>
             <span style={{fontSize: '2.1em', fontWeight: '600', color: '#fff', textAlign: 'center', display: 'flex', marginBottom: '10px'}}>
@@ -71,7 +71,7 @@ function Header() {
   }
   if (path == '/resources') {
     return (
-      <div style={{display: 'flex', justifyContent: 'center', background: `linear-gradient(#61ce70bc, #61ce70bc), url(${stageRoom2}) no-repeat center center`, backgroundSize: 'cover'}} className='header1'>
+      <div style={{display: 'flex', justifyContent: 'center', background: `linear-gradient(rgba(0, 0, 0, 0.31), rgba(0, 0, 0, 0.31)), url(${stageRoom2}) no-repeat center center`, backgroundSize: 'cover'}} className='header1'>
         <div style={{width: '75%', display: 'flex', justifyContent: 'space-between', placeItems: 'center'}} className='container-11'>
           <div>
             <span style={{fontSize: '2.1em', fontWeight: '600', color: '#fff', textAlign: 'center', display: 'flex', marginBottom: '10px'}}>
@@ -92,7 +92,7 @@ function Header() {
   }
   if (path == '/contact') {
     return (
-      <div style={{display: 'flex', justifyContent: 'center', background: `linear-gradient(#ff252878, #ff252978), url(${stageRoom2}) no-repeat center center`, backgroundSize: 'cover'}} className='header1'>
+      <div style={{display: 'flex', justifyContent: 'center', background: `linear-gradient(rgba(0, 0, 0, 0.31), rgba(0, 0, 0, 0.31)), url(${stageRoom2}) no-repeat center center`, backgroundSize: 'cover'}} className='header1'>
         <div style={{width: '75%', display: 'flex', justifyContent: 'space-between', placeItems: 'center'}} className='container-11'>
           <div>
             <span style={{fontSize: '2.1em', fontWeight: '600', color: '#fff', textAlign: 'center', display: 'flex', marginBottom: '10px'}}>
