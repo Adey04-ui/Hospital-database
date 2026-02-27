@@ -14,12 +14,6 @@ function Login({ user }) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (user) {
-      navigate('/')
-    }
-  }, [user, navigate])
   
 
   async function handleLogin(e) {
