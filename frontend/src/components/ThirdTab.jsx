@@ -41,24 +41,24 @@ function ThirdTab() {
         </div>
         <div style={{width: '100%', marginTop: '10px', padding: '12px', background: '#f6f6f6'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', background: '#030390', color: '#fff', padding: '7px 14px'}}>
-            <span style={{width: '20%', fontSize: '14px', fontWeight: 500,}}>Patient name</span>
-            <span style={{width: '20%', fontSize: '14px', fontWeight: 500,}}>Diagnosis</span>
-            <span style={{width: '26%', fontSize: '14px', fontWeight: 500,}}>Doctor name</span>
-            <span style={{width: '16%', fontSize: '14px', fontWeight: 500,}}>Action</span>
+            <span style={{width: '20%', fontSize: '12px', fontWeight: 500,}}>Patient name</span>
+            <span style={{width: '20%', fontSize: '12px', fontWeight: 500,}}>Diagnosis</span>
+            <span style={{width: '26%', fontSize: '12px', fontWeight: 500,}}>Doctor name</span>
+            <span style={{width: '16%', fontSize: '12px', fontWeight: 500,}}>Action</span>
           </div>
           <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'auto',}} className='table-container'>
             {splicedRecords.map((record, index) => (
               <div key={index} className={`row`} style={{background: '#fff'}}>
-                <span style={{width: '23%', fontSize: '16px',}}>
+                <span style={{width: '23%', fontSize: '14px',}}>
                   {record.patient_name}
                 </span>
-                <span style={{width: '23%', fontSize: '16px',}}>
+                <span style={{width: '23%', fontSize: '14px',}}>
                   {record.diagnosis}
                 </span>
-                <span style={{width: '31%', fontSize: '16px',}}>
+                <span style={{width: '31%', fontSize: '14px',}}>
                   {record.doctor_name}
                 </span>
-                <span style={{width: '19%', fontSize: '16px', textWrap: 'wrap', wordWrap: 'break-word', color: '#030390', cursor: 'pointer'}} onClick={()=> navigate(`/records/${record.record_id}`)}>
+                <span style={{width: '19%', fontSize: '14px', textWrap: 'wrap', wordWrap: 'break-word', color: '#030390', cursor: 'pointer'}} onClick={()=> navigate(`/records/${record.record_id}`)}>
                   see more
                 </span>
               </div>

@@ -60,36 +60,36 @@ function Doctors({user}) {
       </div>
       <div>
         <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', background: '#030390', color: '#fff', padding: '7px 14px'}}>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Doctor id</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Doctor name</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Department</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Specialization</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Shift starts</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Shift ends</span>
-          <span style={{width: '10%', fontSize: '17px', fontWeight: 500,}}>Action</span>
+          <span style={{width: '16%', fontSize: '15px', fontWeight: 500,}}>Doctor id</span>
+          <span style={{width: '17%', fontSize: '15px', fontWeight: 500,}}>Doctor name</span>
+          <span style={{width: '16%', fontSize: '15px', fontWeight: 500,}}>Department</span>
+          <span style={{width: '18%', fontSize: '15px', fontWeight: 500,}}>Specialization</span>
+          <span style={{width: '16%', fontSize: '15px', fontWeight: 500,}}>Shift starts</span>
+          <span style={{width: '16%', fontSize: '15px', fontWeight: 500,}}>Shift ends</span>
+          <span style={{width: '10%', fontSize: '15px', fontWeight: 500,}}>Action</span>
         </div>
         <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
           {filteredDoctors.map((doctor, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`}>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '16%', fontSize: '14px',}}>
                 {doctor.id}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '17%', fontSize: '14px',}}>
                 {doctor.full_name}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '16%', fontSize: '14px',}}>
                 {doctor.department}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '18%', fontSize: '14px',}}>
                 {doctor.specialization}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '16%', fontSize: '14px',}}>
                 {doctor.shift_start}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '16%', fontSize: '14px',}}>
                 {doctor.shift_end}
               </span>
-              <span style={{width: '10%', fontSize: '16px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-doctor/${doctor.id}`)}>
+              <span style={{width: '10%', fontSize: '14px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-doctor/${doctor.id}`)}>
                 Edit
               </span>
             </div>

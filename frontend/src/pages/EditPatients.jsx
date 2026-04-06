@@ -16,10 +16,12 @@ import InputLabel from "@mui/material/InputLabel"
 import Select from "@mui/material/Select"
 import MenuItem from "@mui/material/MenuItem"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
+import { useNavigate } from 'react-router-dom'
 
 export default function EditPatient({ user }) {
   const [patient, setPatient] = useState({})
   const {id} = useParams()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     full_name: "",
     email: "",
@@ -77,6 +79,7 @@ export default function EditPatient({ user }) {
         shift_start: patient?.shift_start || "",
         shift_end: patient?.shift_end || ""
       })
+      navigate('/all-patients')
     } catch (err) {
       console.log(err.message || "Failed to update patient")
     }

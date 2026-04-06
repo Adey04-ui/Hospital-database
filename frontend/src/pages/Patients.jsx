@@ -59,36 +59,36 @@ function Patients({user}) {
       </div>
       <div>
         <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', background: '#030390', color: '#fff', padding: '7px 14px'}}>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Patient id</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Patient name</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Gender</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Email</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Phone Number</span>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Date of Birth</span>
-          <span style={{width: '5%', fontSize: '17px', fontWeight: 500,}}>Action</span>
+          <span style={{width: '10%', fontSize: '14px', fontWeight: 500,}}>Patient id</span>
+          <span style={{width: '16%', fontSize: '14px', fontWeight: 500,}}>Patient name</span>
+          <span style={{width: '11%', fontSize: '14px', fontWeight: 500,}}>Gender</span>
+          <span style={{width: '21%', fontSize: '14px', fontWeight: 500,}}>Email</span>
+          <span style={{width: '16%', fontSize: '14px', fontWeight: 500,}}>Phone Number</span>
+          <span style={{width: '16%', fontSize: '14px', fontWeight: 500,}}>Date of Birth</span>
+          <span style={{width: '5%', fontSize: '14px', fontWeight: 500,}}>Action</span>
         </div>
         <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
           {filteredPatients.map((patient, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`}>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '10%', fontSize: '14px',}}>
                 {patient.id}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '16%', fontSize: '14px',}}>
                 {patient.full_name}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '11%', fontSize: '14px',}}>
                 {patient.gender}
               </span>
-              <span style={{width: '16%', fontSize: '16px', textWrap: 'wrap', wordWrap: 'break-word'}}>
+              <span style={{width: '21%', fontSize: '14px', textWrap: 'wrap', wordWrap: 'break-word'}}>
                 {patient.email}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '16%', fontSize: '14px',}}>
                 {patient.phone}
               </span>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '16%', fontSize: '14px',}}>
                 {patient.date_of_birth}
               </span>
-              <span style={{width: '5%', fontSize: '16px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-patient/${patient.id}`)}>
+              <span style={{width: '5%', fontSize: '14px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-patient/${patient.id}`)}>
                 Edit
               </span>
             </div>

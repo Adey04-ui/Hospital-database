@@ -29,21 +29,23 @@ function Sidebar({user}) {
         <img src="/" alt="hospital_logo" />
         <span>hospital name</span>
       </div>
-      <div className="navlinks">
-        <ul>
-          <li className={path === "/" ? "active" : ""} onClick={()=> path !== "/" && navigate('/')}><Home size={20} /> home</li>
-          <li className={path === "/book-appointment" ? "active" : ""} onClick={()=> path !== "/book-appointment" && navigate('/book-appointment')}><List size={20} /> book apointment</li>
-          <li className={path === "/reviews" ? "active" : ""} onClick={()=> path !== "/reviews" && navigate('/reviews')}><MessageCircle size={20} /> reviews</li>
-          <li className={path === "/new-patient" ? "active" : ""} onClick={()=> path !== "/new-patient" && navigate('/new-patient')}><UserPlus size={20} /> new patient</li>
-          <li className={path === "/doctors" ? "active" : ""} onClick={()=> path !== "/doctors" &&  navigate('/doctors')}><UserPlus size={20} />new doctors</li>
-          <li className={path === "/new-receptionist" ? "active" : ""} onClick={()=> path !== "/new-receptionist" &&  navigate('/new-receptionist')}><UserPlus size={20} />new receptionist</li>
-          <li className={quickLinks ? "active" : ""} onClick={()=> setQuicklinks(prev => (!prev))} style={{display: 'flex', justifyContent: 'space-between'}}><span><Zap size={20} /> Quick Links</span><span className={`chevron ${quickLinks && 'turn'}`} style={{marginBottom: '-7px'}}><ChevronRight size={20} /></span></li>
-        </ul>
-        <ul className={`quick ${quickLinks && 'active'}`} style={{gap: '0px'}}>
-          <li className="active" onClick={()=> path !== "/all-doctors" &&  navigate('/all-doctors')}><UserCheck size={20} /> doctors</li>
-          <li className="active" onClick={()=> path !== "/all-receptionists" &&  navigate('/all-receptionists')}><Clipboard size={20} /> receptionists</li>
-          <li className="active" onClick={()=> path !== "/all-patients" &&  navigate('/all-patients')}><Users size={20} /> patients</li>
-        </ul>
+      <div className='scrollableNav' style={{overflowY: 'auto', height: 'calc(100vh - 140px)'}}>
+        <div className="navlinks">
+          <ul>
+            <li className={path === "/" ? "active" : ""} onClick={()=> path !== "/" && navigate('/')}><Home size={20} /> home</li>
+            <li className={path === "/book-appointment" ? "active" : ""} onClick={()=> path !== "/book-appointment" && navigate('/book-appointment')}><List size={20} /> book apointment</li>
+            <li className={path === "/reviews" ? "active" : ""} onClick={()=> path !== "/reviews" && navigate('/reviews')}><MessageCircle size={20} /> reviews</li>
+            <li className={path === "/new-patient" ? "active" : ""} onClick={()=> path !== "/new-patient" && navigate('/new-patient')}><UserPlus size={20} /> new patient</li>
+            <li className={path === "/doctors" ? "active" : ""} onClick={()=> path !== "/doctors" &&  navigate('/doctors')}><UserPlus size={20} />new doctors</li>
+            <li className={path === "/new-receptionist" ? "active" : ""} onClick={()=> path !== "/new-receptionist" &&  navigate('/new-receptionist')}><UserPlus size={20} />new receptionist</li>
+            <li className={quickLinks ? "active" : ""} onClick={()=> setQuicklinks(prev => (!prev))} style={{display: 'flex', justifyContent: 'space-between'}}><span><Zap size={20} /> Quick Links</span><span className={`chevron ${quickLinks && 'turn'}`} style={{marginBottom: '-7px'}}><ChevronRight size={20} /></span></li>
+          </ul>
+          <ul className={`quick ${quickLinks && 'active'}`} style={{gap: '0px'}}>
+            <li className="active" onClick={()=> path !== "/all-doctors" &&  navigate('/all-doctors')}><UserCheck size={20} /> doctors</li>
+            <li className="active" onClick={()=> path !== "/all-receptionists" &&  navigate('/all-receptionists')}><Clipboard size={20} /> receptionists</li>
+            <li className="active" onClick={()=> path !== "/all-patients" &&  navigate('/all-patients')}><Users size={20} /> patients</li>
+          </ul>
+        </div>
       </div>
       <div className="logout">
         <button onClick={handleLogout}>{user && (<><LogOut size={20} /> <span>log out</span></>)}</button>

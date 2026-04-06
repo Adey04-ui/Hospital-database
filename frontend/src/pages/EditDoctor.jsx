@@ -11,10 +11,12 @@ import Autocomplete from "@mui/material/Autocomplete"
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export default function EditDoctor({ user }) {
   const [doctor, setDoctor] = useState({})
   const {id} = useParams()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     full_name: "",
     email: "",
@@ -72,6 +74,9 @@ export default function EditDoctor({ user }) {
         shift_start: doctor?.doctor?.shift_start || "",
         shift_end: doctor?.doctor?.shift_end || ""
       })
+
+      navigate('/all-doctors')
+      
     } catch (err) {
       console.log(err.message || "Failed to update doctor")
     }
