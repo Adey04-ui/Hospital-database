@@ -38,6 +38,4 @@ session_set_cookie_params([
     'path'     => '/'
 ]);
 
-// Start session (if you're using sessions)
-session_start();
 ?>
