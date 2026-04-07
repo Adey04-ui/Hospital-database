@@ -1,4 +1,6 @@
 <?php
+// appointmentMail.php
+
 require_once "../config/header.php";
 require_once "../loadenv.php";
 
@@ -10,7 +12,6 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 header("Content-Type: application/json");
-$env = getenv("ENV");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -21,45 +22,42 @@ if (!$data || !is_array($data)) {
 }
 
 $recipientEmail = trim($data['email'] ?? '');
-$recipientName = trim($data['full_name'] ??'');
+$recipientName  = trim($data['full_name'] ?? '');
 $appointment_id = (int) ($data['appointment_id'] ?? 0);
-$doctor_name = trim($data['doctor_name'] ??'');
-$date = trim($data['date'] ??'');
+$doctor_name    = trim($data['doctor_name'] ?? '');
+$date           = trim($data['date'] ?? '');
 
-if ($recipientEmail === '' || $recipientName === '' || $appointment_id === 0) {
+if (empty($recipientEmail) || empty($recipientName) || $appointment_id === 0) {
     http_response_code(400);
-    echo json_encode(["message" => "missing required mail data"]);
+    echo json_encode(["message" => "Missing required mail data"]);
     exit;
-  }
+}
 
-  $body = "
+// Build email body
+$body = "
     <div style='font-family: Arial, sans-serif; line-height: 1.6'>
-        <p style='color: #030390; font-weight: 500; font-size: 17px;'>Hospital name</p>
+
+        <p style='color: #030390; font-weight: 500; font-size: 17px;'>Hospital Name</p>
+
         <p>Good day <strong>{$recipientName}</strong>,</p>
 
-        <p>
-        You have successfully been booked for an appointment with {$doctor_name} at <strong>Hospital Name</strong> on {$date}.
-        </p>
+        <p>You have successfully been booked for an appointment with <strong>{$doctor_name}</strong> on <strong>{$date}</strong>.</p>
 
-        <p>
-        <strong>Your appointment ID:</strong> {$appointment_id}
-        </p>
+        <p><strong>Your appointment ID:</strong> {$appointment_id}</p>
 
-        <p>
-        Please keep this ID safe, as it will be required for you to be attended to.
-        </p>
-
-        <p>
-        Regards,<br>
-        Hospital Name
-        </p>
+        <p>Please keep this ID safe.</p>
+        
+        <p>Regards,<br>Hospital Name</p>
     </div>
-    ";
+";
+
+$env = getenv("ENV") ?: "development";
 
 $mail = new PHPMailer(true);
-if($env == "development") {
-    try {
-        // ── SMTP Settings ────────────────────────────────────────
+
+try {
+    if ($env === "development") {
+        // ==================== DEVELOPMENT: SMTP ====================
         $mail->isSMTP();
         $mail->Host       = getenv('MAIL_HOST');
         $mail->SMTPAuth   = true;
@@ -68,41 +66,35 @@ if($env == "development") {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
-        // Recipients
         $mail->setFrom(getenv('MAIL_USER'), 'Hospital Name');
         $mail->addAddress($recipientEmail, $recipientName);
 
-        // Content
         $mail->isHTML(true);
         $mail->Subject = 'Appointment booked successfully';
         $mail->Body    = $body;
 
         $mail->send();
 
-        // Success via SMTP (local dev)
+        // SUCCESS - Send response and STOP execution
         echo json_encode([
-            "message"     => "Mail successfully sent via SMTP",
-            "appointment_id"  => $appointment_id
+            "success" => true,
+            "message" => "Mail successfully sent via SMTP",
+            "appointment_id" => $appointment_id
         ]);
+        exit;   // ← VERY IMPORTANT
 
-    } catch (Exception $e) {
-        $errorMsg = $mail->ErrorInfo;
-    }
-}
-
-    if ($env == "production") {
-        // ── Fallback: Brevo API ─────────────────────────────────
+    } 
+    else {
+        // ==================== PRODUCTION: Brevo API ====================
         $apiKey = getenv('BREVO_API_KEY');
         if (!$apiKey) {
-            http_response_code(500);
-            echo json_encode(["message" => "Brevo API key not configured"]);
-            exit;
+            throw new Exception("Brevo API key not configured");
         }
 
         $payload = [
             'sender' => [
                 'name'  => 'Hospital Name',
-                'email' => getenv('MAIL_USER') ?: 'kehindeodukoyaade@gmail.com' 
+                'email' => getenv('MAIL_USER') ?: 'kehindeodukoyaade@gmail.com'
             ],
             'to' => [
                 ['email' => $recipientEmail, 'name' => $recipientName]
@@ -126,26 +118,26 @@ if($env == "development") {
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlError = curl_error($ch);
         curl_close($ch);
 
         if ($httpCode >= 200 && $httpCode < 300) {
             echo json_encode([
-                "message"    => "Mail successfully sent via Brevo API (SMTP fallback)",
+                "success" => true,
+                "message" => "Mail successfully sent via Brevo",
                 "appointment_id" => $appointment_id
             ]);
+            exit;
         } else {
-            http_response_code(500);
-            echo json_encode([
-                "message" => "Brevo fallback failed (HTTP $httpCode): " . ($response ?: $curlError)
-            ]);
+            throw new Exception("Brevo API failed with code: " . $httpCode);
         }
-    } else {
-        // Non-connection SMTP error (bad creds, invalid email, etc.) → don't fallback
-        http_response_code(500);
-        echo json_encode([
-            "message" => "Mail could not be sent via SMTP: " . $errorMsg
-        ]);
     }
 
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        "success" => false,
+        "message" => "Failed to send email: " . $e->getMessage()
+    ]);
+    exit;
+}
 ?>

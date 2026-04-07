@@ -5,6 +5,7 @@ import RelativeLoader from '../components/RelativeLoader'
 import Loader from '../components/Loader'
 import Unauthorized from '../components/Unauthorized'
 import { useNavigate } from 'react-router-dom'
+import { PatientSkeleton } from '../components/GeneralSkeletonLoader'
 
 function Patients({user}) {
   const [loading, setLoading] = useState(true)
@@ -36,7 +37,6 @@ function Patients({user}) {
       patient.id.toString().includes(query)
     )
   })
-  if (loading) return <Loader />
   if (user.role !== "admin" && user.role !== "receptionist") return <Unauthorized />
   return (
     <div className="full-container">
@@ -68,6 +68,11 @@ function Patients({user}) {
           <span style={{width: '5%', fontSize: '14px', fontWeight: 500,}}>Action</span>
         </div>
         <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
+          {loading && (
+            Array.from({ length: 8 }).map((_, i) => (
+              <PatientSkeleton key={i} />
+            ))
+          )}
           {filteredPatients.map((patient, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`}>
               <span style={{width: '10%', fontSize: '14px',}}>
