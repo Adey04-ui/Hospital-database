@@ -5,6 +5,7 @@ import RelativeLoader from '../components/RelativeLoader'
 import Loader from '../components/Loader'
 import Unauthorized from '../components/Unauthorized'
 import { useNavigate } from 'react-router-dom'
+import { ReceptionistSkeleton } from '../components/GeneralSkeletonLoader'
 
 function Receptionists({user}) {
   const [loading, setLoading] = useState(true)
@@ -36,8 +37,6 @@ function Receptionists({user}) {
       doctor.id.toString().includes(query)
     )
   })
-
-  if (loading) return <Loader />
   if(user.role !== "admin") return <Unauthorized message={"Only admin can enter this page"} />
   return (
     <div className="full-container">
@@ -60,20 +59,25 @@ function Receptionists({user}) {
       </div>
       <div>
         <div style={{display: 'flex', placeItems: 'center', background: '#030390', color: '#fff', padding: '7px 14px'}}>
-          <span style={{width: '16%', fontSize: '17px', fontWeight: 500,}}>Receptionist id</span>
-          <span style={{width: '25%', fontSize: '17px', fontWeight: 500,}}>Receptionist name</span>
-          <span style={{width: '25%', fontSize: '17px', fontWeight: 500,}}>Action</span>
+          <span style={{width: '16%', fontSize: '14px', fontWeight: 500,}}>Receptionist id</span>
+          <span style={{width: '25%', fontSize: '14px', fontWeight: 500,}}>Receptionist name</span>
+          <span style={{width: '25%', fontSize: '14px', fontWeight: 500,}}>Action</span>
         </div>
         <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
+          {loading && (
+            Array.from({ length: 4 }).map((_, i) => (
+              <ReceptionistSkeleton key={i} />
+            ))
+          )}
           {filteredReceptionists.map((receptionist, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`} style={{justifyContent: 'inherit'}}>
-              <span style={{width: '16%', fontSize: '16px',}}>
+              <span style={{width: '16%', fontSize: '14px',}}>
                 {receptionist.id}
               </span>
-              <span style={{width: '25%', fontSize: '16px',}}>
+              <span style={{width: '25%', fontSize: '14px',}}>
                 {receptionist.full_name}
               </span>
-              <span style={{width: '25%', fontSize: '16px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-receptionist/${receptionist.id}`)}>
+              <span style={{width: '25%', fontSize: '14px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-receptionist/${receptionist.id}`)}>
                 Edit
               </span>
             </div>

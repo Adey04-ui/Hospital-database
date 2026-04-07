@@ -53,4 +53,28 @@ function DoctorSkeleton(key) {
   )
 }
 
-export { DoctorSkeleton }
+function ReceptionistSkeleton(key) {
+  return (
+    <div className={`row ${key % 2 == 0 ? 'odd' : 'even'}`} style={{ justifyContent: 'inherit' }}>
+      <span style={{ width: '16%', fontSize: '16px', }}>
+        <Skeleton
+          height="13px"
+          borderRadius="10px"
+          width='15px'
+        />
+      </span>
+      <span style={{ width: '25%', fontSize: '16px', }}>
+        <Skeleton
+          height="10px"
+          borderRadius="10px"
+          width='80%'
+        />
+      </span>
+      <span style={{ width: '25%', fontSize: '16px', cursor: 'pointer', color: '#030390' }} onClick={() => navigate(`/edit-receptionist/${receptionist.id}`)}>
+        Edit
+      </span>
+    </div>
+  )
+}
+
+  export { DoctorSkeleton, ReceptionistSkeleton }

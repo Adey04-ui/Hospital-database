@@ -7,14 +7,14 @@ import Unauthorized from '../components/Unauthorized'
 import { useNavigate } from 'react-router-dom'
 import { DoctorSkeleton } from '../components/GeneralSkeletonLoader'
 
-function Doctors({user}) {
+function Doctors({ user }) {
   const [loading, setLoading] = useState(true)
   const [doctors, setDoctors] = useState([])
   const [search, setSearch] = useState("")
 
   const navigate = useNavigate()
 
-  useEffect(()=> {
+  useEffect(() => {
     const fetchDoctors = async () => {
       try {
         const res = await cachedFetch('/doctors/list.php')
@@ -37,11 +37,11 @@ function Doctors({user}) {
       doctor.id.toString().includes(query)
     )
   })
-  if(user.role !== "admin") return <Unauthorized message={"Only admin can enter this page"} />
+  if (user.role !== "admin") return <Unauthorized message={"Only admin can enter this page"} />
   return (
     <div className="full-container">
-      <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', margin: '12px 0'}}>
-        <span style={{fontSize: '19px', fontWeight: 500,}}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', placeItems: 'center', margin: '12px 0' }}>
+        <span style={{ fontSize: '19px', fontWeight: 500, }}>
           All Doctors
         </span>
         <div>
@@ -52,48 +52,48 @@ function Doctors({user}) {
             onChange={(e) => setSearch(e.target.value)}
             className="search-input"
           />
-          <label htmlFor="search" style={{position: 'absolute', marginTop: '-33px', marginLeft: '7px'}}>
+          <label htmlFor="search" style={{ position: 'absolute', marginTop: '-33px', marginLeft: '7px' }}>
             <Search size={22} color='#8c8c8c' />
           </label>
         </div>
       </div>
       <div>
-        <div style={{display: 'flex', justifyContent: 'space-between', placeItems: 'center', background: '#030390', color: '#fff', padding: '7px 14px'}}>
-          <span style={{width: '16%', fontSize: '15px', fontWeight: 500,}}>Doctor id</span>
-          <span style={{width: '17%', fontSize: '15px', fontWeight: 500,}}>Doctor name</span>
-          <span style={{width: '16%', fontSize: '15px', fontWeight: 500,}}>Department</span>
-          <span style={{width: '18%', fontSize: '15px', fontWeight: 500,}}>Specialization</span>
-          <span style={{width: '16%', fontSize: '15px', fontWeight: 500,}}>Shift starts</span>
-          <span style={{width: '16%', fontSize: '15px', fontWeight: 500,}}>Shift ends</span>
-          <span style={{width: '10%', fontSize: '15px', fontWeight: 500,}}>Action</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', placeItems: 'center', background: '#030390', color: '#fff', padding: '7px 14px' }}>
+          <span style={{ width: '16%', fontSize: '15px', fontWeight: 500, }}>Doctor id</span>
+          <span style={{ width: '17%', fontSize: '15px', fontWeight: 500, }}>Doctor name</span>
+          <span style={{ width: '16%', fontSize: '15px', fontWeight: 500, }}>Department</span>
+          <span style={{ width: '18%', fontSize: '15px', fontWeight: 500, }}>Specialization</span>
+          <span style={{ width: '16%', fontSize: '15px', fontWeight: 500, }}>Shift starts</span>
+          <span style={{ width: '16%', fontSize: '15px', fontWeight: 500, }}>Shift ends</span>
+          <span style={{ width: '10%', fontSize: '15px', fontWeight: 500, }}>Action</span>
         </div>
-        <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)',}} className='table-container'>
+        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'calc(100vh - 70px - 80px)', }} className='table-container'>
           {loading && (
-              Array.from({ length: 5 }).map((_, i) => (
-                <DoctorSkeleton key={i} />
-              ))
-            )}
+            Array.from({ length: 8 }).map((_, i) => (
+              <DoctorSkeleton key={i} />
+            ))
+          )}
           {filteredDoctors.map((doctor, index) => (
             <div key={index} className={`row ${index % 2 == 0 ? 'odd' : 'even'}`}>
-              <span style={{width: '16%', fontSize: '14px',}}>
+              <span style={{ width: '16%', fontSize: '14px', }}>
                 {doctor.id}
               </span>
-              <span style={{width: '17%', fontSize: '14px',}}>
+              <span style={{ width: '17%', fontSize: '14px', }}>
                 {doctor.full_name}
               </span>
-              <span style={{width: '16%', fontSize: '14px',}}>
+              <span style={{ width: '16%', fontSize: '14px', }}>
                 {doctor.department}
               </span>
-              <span style={{width: '18%', fontSize: '14px',}}>
+              <span style={{ width: '18%', fontSize: '14px', }}>
                 {doctor.specialization}
               </span>
-              <span style={{width: '16%', fontSize: '14px',}}>
+              <span style={{ width: '16%', fontSize: '14px', }}>
                 {doctor.shift_start}
               </span>
-              <span style={{width: '16%', fontSize: '14px',}}>
+              <span style={{ width: '16%', fontSize: '14px', }}>
                 {doctor.shift_end}
               </span>
-              <span style={{width: '10%', fontSize: '14px', cursor: 'pointer', color: '#030390'}} onClick={() => navigate(`/edit-doctor/${doctor.id}`)}>
+              <span style={{ width: '10%', fontSize: '14px', cursor: 'pointer', color: '#030390' }} onClick={() => navigate(`/edit-doctor/${doctor.id}`)}>
                 Edit
               </span>
             </div>
