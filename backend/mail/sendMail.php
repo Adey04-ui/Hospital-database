@@ -1,4 +1,6 @@
 <?php
+// patientWelcomeMail.php - Clean & Fixed Version
+
 require_once "../config/header.php";
 require_once "../loadenv.php";
 
@@ -10,8 +12,6 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 header("Content-Type: application/json");
-
-$env = getenv("ENV");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -25,83 +25,73 @@ $recipientEmail = trim($data['email'] ?? '');
 $recipientName  = trim($data['full_name'] ?? '');
 $patient_id     = (int) ($data['patient_id'] ?? 0);
 
-if ($recipientEmail === '' || $recipientName === '' || $patient_id === 0) {
+if (empty($recipientEmail) || empty($recipientName) || $patient_id === 0) {
     http_response_code(400);
-    echo json_encode(["message" => "recipient email, name or patient_id missing"]);
+    echo json_encode(["message" => "Recipient email, name or patient_id is missing"]);
     exit;
 }
 
+// Build clean HTML email body
 $body = "
-    <div style='font-family: Arial, sans-serif; line-height: 1.6'>
-        <p style='color: #030390; font-weight: 500; font-size: 17px;'>Hospital name</p>
+    <div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+        <p style='color: #030390; font-weight: 600; font-size: 18px;'>Hospital Name</p>
         <p>Welcome <strong>{$recipientName}</strong>,</p>
 
-        <p>
-        You have been successfully registered at <strong>Hospital Name</strong>.
-        </p>
+        <p>You have been successfully registered at <strong>Hospital Name</strong>.</p>
+        
+        <p><strong>Your Patient ID:</strong> {$patient_id}</p>
 
-        <p>
-        <strong>Your Patient ID:</strong> {$patient_id}
-        </p>
+        <p>Please keep this ID safe, as it will be required for all hospital-related services.</p>
 
-        <p>
-        Please keep this ID safe, as it will be required for all hospital-related services.
-        </p>
-
-        <p>
-        Regards,<br>
-        Hospital Name
-        </p>
+        <p>Regards,<br>
+        Hospital Name Team</p>
     </div>
-    ";
+";
+
+$env = getenv("ENV") ?: "development";
 
 $mail = new PHPMailer(true);
-if ($env == "development") {
+
 try {
-    // ── SMTP Settings ────────────────────────────────────────
-    $mail->isSMTP();
-    $mail->Host       = getenv('MAIL_HOST');
-    $mail->SMTPAuth   = true;
-    $mail->Username   = getenv('MAIL_USER');
-    $mail->Password   = getenv('MAIL_PASS');
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587;
+    if ($env === "development") {
+        // ====================== DEVELOPMENT: SMTP ======================
+        $mail->isSMTP();
+        $mail->Host       = getenv('MAIL_HOST');
+        $mail->SMTPAuth   = true;
+        $mail->Username   = getenv('MAIL_USER');
+        $mail->Password   = getenv('MAIL_PASS');
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
-    // Recipients
-    $mail->setFrom(getenv('MAIL_USER'), 'Hospital Name');
-    $mail->addAddress($recipientEmail, $recipientName);
+        $mail->setFrom(getenv('MAIL_USER'), 'Hospital Name');
+        $mail->addAddress($recipientEmail, $recipientName);
 
-    // Content
-    $mail->isHTML(true);
-    $mail->Subject = 'Welcome to Hospital Name - Your Patient Registration';
-    $mail->Body    = $body;
+        $mail->isHTML(true);
+        $mail->Subject = 'Welcome to Hospital Name - Your Patient Registration';
+        $mail->Body    = $body;
 
-    $mail->send();
+        $mail->send();
 
-    // Success via SMTP (local dev)
-    echo json_encode([
-        "message"     => "Mail successfully sent via SMTP",
-        "patient_id"  => $patient_id
-    ]);
+        // SUCCESS RESPONSE
+        echo json_encode([
+            "success"    => true,
+            "message"    => "Welcome mail successfully sent via SMTP",
+            "patient_id" => $patient_id
+        ]);
+        exit;
 
-} catch (Exception $e) {
-    $errorMsg = $mail->ErrorInfo;
-}
-}
-
-    if ($env == "production") {
-        // ── Fallback: Brevo API ─────────────────────────────────
+    } 
+    else {
+        // ====================== PRODUCTION: Brevo API ======================
         $apiKey = getenv('BREVO_API_KEY');
-        if (!$apiKey) {
-            http_response_code(500);
-            echo json_encode(["message" => "Brevo API key not configured"]);
-            exit;
+        if (empty($apiKey)) {
+            throw new Exception("Brevo API key is not configured");
         }
 
         $payload = [
             'sender' => [
                 'name'  => 'Hospital Name',
-                'email' => getenv('MAIL_USER') ?: 'kehindeodukoyaade@gmail.com' 
+                'email' => getenv('MAIL_USER') ?: 'kehindeodukoyaade@gmail.com'
             ],
             'to' => [
                 ['email' => $recipientEmail, 'name' => $recipientName]
@@ -117,10 +107,10 @@ try {
                 'api-key: ' . $apiKey,
                 'content-type: application/json'
             ],
-            CURLOPT_POST       => true,
-            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => json_encode($payload),
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT    => 15,
+            CURLOPT_TIMEOUT        => 15,
         ]);
 
         $response = curl_exec($ch);
@@ -130,20 +120,22 @@ try {
 
         if ($httpCode >= 200 && $httpCode < 300) {
             echo json_encode([
-                "message"    => "Mail successfully sent via Brevo API (SMTP fallback)",
+                "success"    => true,
+                "message"    => "Welcome mail successfully sent via Brevo",
                 "patient_id" => $patient_id
             ]);
+            exit;
         } else {
-            http_response_code(500);
-            echo json_encode([
-                "message" => "Brevo fallback failed (HTTP $httpCode): " . ($response ?: $curlError)
-            ]);
+            throw new Exception("Brevo API returned HTTP $httpCode");
         }
-    } else {
-        // Non-connection SMTP error (bad creds, invalid email, etc.) → don't fallback
-        http_response_code(500);
-        echo json_encode([
-            "message" => "Mail could not be sent via SMTP: " . $errorMsg
-        ]);
     }
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        "success" => false,
+        "message" => "Failed to send welcome email: " . $e->getMessage()
+    ]);
+    exit;
+}
 ?>
