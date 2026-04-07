@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import { cachedFetch } from '../services/api'
+import DoctorAppointmentTableSkeletonLoader from './DoctorAppointmentTableSkeletonLoader'
 
-function AppointmentComponentDoctors({ appointments}) {
+function AppointmentComponentDoctors({ appointments, loading }) {
   const navigate = useNavigate()
   const [todayAppointments, setTodayAppointments] = useState([])
 
@@ -43,6 +44,11 @@ function AppointmentComponentDoctors({ appointments}) {
               <span style={{width: '20%', fontSize: '14px', fontWeight: 500,}}>Date</span>
             </div>
             <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'auto',}} className='table-container'>
+              {loading && (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <DoctorAppointmentTableSkeletonLoader key={i} />
+                ))
+              )}
               {splicedTodayAppointments.length > 0 ? splicedTodayAppointments.map((app, index) => (
                 <div key={index} className={`row`} style={{background: '#fff'}}>
                   <span style={{width: '23%', fontSize: '16px',}}>
@@ -74,6 +80,11 @@ function AppointmentComponentDoctors({ appointments}) {
               <span style={{width: '20%', fontSize: '14px', fontWeight: 500,}}>Date</span>
             </div>
             <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'auto',}} className='table-container'>
+              {loading && (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <DoctorAppointmentTableSkeletonLoader key={i} />
+                ))
+              )}
               {splicedAppointemnts.length > 0 ? splicedAppointemnts.map((app, index) => (
                 <div key={index} className={`row`} style={{background: '#fff'}}>
                   <span style={{width: '23%', fontSize: '16px',}}>

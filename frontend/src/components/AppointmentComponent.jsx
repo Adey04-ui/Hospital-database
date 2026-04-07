@@ -1,7 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import AppointmentTableSkeleton from './AppointmentTableSkeleton'
 
-function AppointmentComponent({appointments}) {
+function AppointmentComponent({appointments, loading}) {
   // const [appointments, setAppointments] = useState([])
   // const [loading, setLoading] = useState(true)
   // useEffect(()=> {
@@ -65,6 +66,11 @@ function AppointmentComponent({appointments}) {
               <span style={{width: '16%', fontSize: '12px', fontWeight: 500,}}>Date</span>
             </div>
             <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'auto',}} className='table-container'>
+              {loading && (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <AppointmentTableSkeleton key={i} />
+                ))
+              )}
               {completedAppointments.length > 0 ? completedAppointments.map((app, index) => (
                 <div key={index} className={`row`} style={{background: '#fff'}}>
                   <span style={{width: '23%', fontSize: '13px',}}>
@@ -100,6 +106,11 @@ function AppointmentComponent({appointments}) {
               <span style={{width: '16%', fontSize: '12px', fontWeight: 500,}}>Date</span>
             </div>
             <div  style={{marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '20px', overflow: 'auto', height: 'auto',}} className='table-container'>
+              {loading && (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <AppointmentTableSkeleton key={i} />
+                ))
+              )}
               {cancelledAppointments.length > 0 ? cancelledAppointments.map((app, index) => (
                 <div key={index} className={`row`} style={{background: '#fff'}}>
                   <span style={{width: '23%', fontSize: '13px',}}>

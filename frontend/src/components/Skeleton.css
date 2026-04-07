@@ -1,0 +1,43 @@
+/* Skeleton.css - Pure CSS, Light Mode Friendly */
+
+.skeleton {
+  background: #e5e7eb;
+  position: relative;
+  overflow: hidden;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    background-color: #e5e7eb;
+  }
+  50% {
+    background-color: #d1d5db;
+  }
+}
+
+/* Beautiful moving shimmer effect */
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+  animation: shimmer 1.7s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
