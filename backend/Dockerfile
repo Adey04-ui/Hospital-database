@@ -1,18 +1,6 @@
-FROM php:8.2-apache
-ENV CACHE_BUST=force123
+FROM php:8.2-cli
 
-# Remove ALL MPM configs completely
-RUN rm -f /etc/apache2/mods-enabled/mpm_* \
-    && a2enmod mpm_prefork
+WORKDIR /app
+COPY . .
 
-RUN a2enmod rewrite
-
-RUN docker-php-ext-install mysqli pdo pdo_mysql
-
-COPY . /var/www/html/
-
-RUN chown -R www-data:www-data /var/www/html
-
-RUN apache2ctl -M | grep mpm
-
-CMD apache2ctl -M && apache2-foreground
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
