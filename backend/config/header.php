@@ -2,6 +2,7 @@
 $allowedOrigins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://customer-ui-sable.vercel.app",
     "https://hospital-database-omega.vercel.app"
 ];
 

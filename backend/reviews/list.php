@@ -1,57 +1,31 @@
 <?php
-$allowedOrigins = [
-    "http://localhost:5174",
-    "https://customer-ui-sable.vercel.app",
-    "http://localhost:5173",
-    "https://hospital-database-omega.vercel.app",
-];
+  require_once "../config/header.php";
+  require_once "../config/db.php";
 
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (in_array($origin, $allowedOrigins)) {
-    header("Access-Control-Allow-Origin: $origin");
-}
+  session_start();
 
-header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
-header("Content-Type: application/json");
+  $role = $_SESSION['user']['role'];
+  $user_id = $_SESSION['user']['id'];
 
-// Preflight OPTIONS
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
+  if ($role === "admin") {
+    $sql = "
+    SELECT r.id, r.full_name, r.stars, r.message, r.created_at
+    FROM reviews r
+    ";
+  } else {
+    $sql = "
+    SELECT r.id, r.full_name, r.stars, r.message, r.created_at
+    FROM reviews r
+    LIMIT 5
+    ";
+  } 
 
-// Session setup
-$isLocal = strpos($_SERVER['HTTP_HOST'], 'localhost') !== false;
-session_set_cookie_params([
-    'samesite' => 'None',
-    'secure' => !$isLocal,
-    'httponly' => true
-]);
-session_start();
+  $result = mysqli_query($conn, $sql);
 
-require_once "../config/db.php";
+  $reviews = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+      $reviews[] = $row;
+  }
 
-// Determine role (if logged in)
-$role = $_SESSION['user']['role'] ?? null;
-
-if ($role === "admin") {
-    $sql = "SELECT id, full_name, stars, message, created_at FROM reviews ORDER BY created_at DESC";
-} else {
-    // non-logged-in or regular users get limited reviews
-    $limit = intval($_GET['limit'] ?? 5);
-    $sql = "SELECT id, full_name, stars, message, created_at FROM reviews ORDER BY created_at DESC LIMIT $limit";
-}
-
-$result = mysqli_query($conn, $sql);
-
-$reviews = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    $reviews[] = $row;
-}
-
-echo json_encode([
-    "status" => "success",
-    "reviews" => $reviews
-]);
+  echo json_encode($reviews);
+?>
