@@ -1,25 +1,27 @@
 <?php
   $allowedOrigins = [
-      "http://localhost:5174",
+    "http://localhost:5174",
       "https://customer-ui-sable.vercel.app",
       "http://localhost:5173",
       "https://hospital-database-omega.vercel.app",
-  ];
+];
 
-  if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
-      header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
-  }
+if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
+    header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+} else {
+    // fallback for debugging (optional)
+    header("Access-Control-Allow-Origin: http://localhost:5173");
+}
 
-  header("Access-Control-Allow-Credentials: true");
-  header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-  header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
-  header("Content-Type: application/json");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Content-Type: application/json");
 
-
-  if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-      http_response_code(200);
-      exit;
-  }
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200); // MUST be 200
+    exit;
+}
 
   require_once "../config/db.php";
 
