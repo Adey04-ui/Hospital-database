@@ -1,4 +1,5 @@
 FROM php:8.2-apache
+ENV CACHE_BUST=force123
 
 # Remove ALL MPM configs completely
 RUN rm -f /etc/apache2/mods-enabled/mpm_* \
@@ -14,4 +15,4 @@ RUN chown -R www-data:www-data /var/www/html
 
 RUN apache2ctl -M | grep mpm
 
-CMD ["apache2-foreground"]
+CMD apache2ctl -M && apache2-foreground
