@@ -1,6 +1,9 @@
 <?php
   require_once "../loadenv.php";
 
+  var_dump($host, $user, $pass, $db, $port);
+exit;
+
   $host = getenv("DB_HOST");
   $user = getenv("DB_USER");
   $pass = getenv("DB_PASS");
