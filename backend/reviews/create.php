@@ -13,16 +13,16 @@
   header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
   header("Content-Type: application/json");
 
-  if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-      http_response_code(200);
-      exit;
-  }
-
   session_set_cookie_params([
     'samesite' => 'None',
     'secure' => true,
     'httponly' => true
   ]);
+
+  if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+      http_response_code(200);
+      exit;
+  }
   require_once "../config/db.php";
 
   $data = json_decode(file_get_contents("php://input"), true);
