@@ -1,5 +1,0 @@
-RewriteEngine On
-
-# Route OPTIONS to PHP
-RewriteCond %{REQUEST_METHOD} OPTIONS
-RewriteRule ^(.*)$ $1 [L]
