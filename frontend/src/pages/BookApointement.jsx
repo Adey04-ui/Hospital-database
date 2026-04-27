@@ -140,13 +140,13 @@ export default function BookAppointment({ user }) {
         {/* Department */}
         <Autocomplete
           options={departments}
-          getOptionLabel={(option) => option.name} // display department name
+          getOptionLabel={(option) => option.name} 
           isOptionEqualToValue={(option, value) => option.id === value.id}
           value={departments.find(dep => dep.id === selectedDepartment) || null}
           onChange={(event, value) => {
             setSelectedDepartment(value ? value.id : "")
-            setForm({ ...form, doctor_id: "" }) // reset doctor selection
-            setDoctors([]) // optional: clear doctors until new department loads
+            setForm({ ...form, doctor_id: "" })
+            setDoctors([])
           }}
           renderInput={(params) => (
             <TextField

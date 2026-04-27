@@ -12,16 +12,10 @@ $today = date('Y-m-d');
 $where = [];
 $order = "ORDER BY a.appointment_date ASC";
 
-/**
- * Doctor-specific restriction
- */
 if ($role === 'doctor') {
     $where[] = "d.user_id = $user_id";
 }
 
-/**
- * Day filter
- */
 if ($day === 'today') {
     $where[] = "DATE(a.appointment_date) = '$today'";
 } elseif ($day === 'upcoming') {
