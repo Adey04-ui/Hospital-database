@@ -1,7 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Header'
+import { toast } from "sonner";
+import { apiFetch } from '../services/api';
 
 function Contact() {
+  const [submitting, setSubmitting] = useState(false)
+  const [form, setForm] = useState({
+    name: "",
+    message: "",
+    phone: "",
+    email: "",
+    patient_id: "",
+  })
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
+    if (form.name.trim() === "") {
+      toast.error("Please add a name")
+      return
+    }
+    if (form.message.trim() === "") {
+      toast.error("Please add a message")
+      return
+    }
+    if (form.phone.trim() === "") {
+      toast.error("Please add a phone number")
+      return
+    }
+    if (form.email.trim() === "") {
+      toast.error("Please add an email")
+      return
+    }
+    try {
+      await apiFetch("/mail/contactUsMail.php", {
+        method: "POST",
+        body: JSON.stringify(form),
+      })
+      setForm({
+        name: "",
+        message: "",
+        phone: "",
+        email: "",
+        patient_id: "",
+      })
+      toast.success("message submitted successfully!")
+    } catch (error) {
+      toast.error("Failed to submit message. Please try again.", error)
+    } finally {
+      setSubmitting(false)
+    }
+  }
   return (
     <>
       <Header />
@@ -16,21 +64,24 @@ function Contact() {
             </span>
             <div className="inputs">
               <div className="input-container">
-                <input type='text' className='input' placeholder='Name' required />
+                <input type='text' className='input' placeholder='Name' onChange={(e) => setForm({ ...form, name: e.target.value })} required />
               </div>
               <div className="input-container">
-                <input type='tel' className='input' placeholder='Phone Number' required />
+                <input type='tel' className='input' placeholder='Phone Number' onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
               </div>
               <div className="input-container">
-                <input type='email' className='input' placeholder='Email' required />
+                <input type='email' className='input' placeholder='Email' onChange={(e) => setForm({ ...form, email: e.target.value })} required />
               </div>
               <div className="input-container">
-                <textarea name="message" className='input' placeholder='Message' id="message" rows='4'>
+                <input type='number' className='input' placeholder='Patient Id' onChange={(e) => setForm({ ...form, patient_id: e.target.value })} />
+              </div>
+              <div className="input-container">
+                <textarea name="message" className='input' placeholder='Message' id="message" rows='4' onChange={(e) => setForm({ ...form, message: e.target.value })} required >
 
                 </textarea>
               </div>
               <div className="input-container">
-                <input type='submit' className='submit' value='submit form' />
+                <input type='submit' className='submit' value='submit form' onClick={handleSubmit} disabled={submitting} />
               </div>
             </div>
           </div>
