@@ -37,7 +37,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -71,7 +71,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -108,7 +108,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -149,7 +149,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -199,7 +199,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -233,7 +233,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -267,7 +267,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -301,7 +301,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -338,7 +338,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -379,7 +379,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -438,7 +438,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
@@ -481,7 +481,7 @@ function Service({service}) {
             </span>
           </div>
           <div style={{marginTop: '30px'}}>
-            <button onClick={()=> navigate('/services')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
+            <button onClick={()=> navigate('/contact')} style={{padding: '12px 23px', borderRadius: '5px', color: '#fff', fontWeight: '600', cursor: 'pointer',}} className='contact-btn'>
               Contact us
             </button>
           </div>
