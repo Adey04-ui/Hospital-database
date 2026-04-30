@@ -45,7 +45,7 @@ function Contact() {
       })
       toast.success("message submitted successfully!")
     } catch (error) {
-      toast.error("Failed to submit message. Please try again.", error)
+      toast.error("Failed to submit message. Please try again.", error.message)
     } finally {
       setSubmitting(false)
     }
