@@ -282,6 +282,13 @@ body {
   display: flex;
   gap: 5px;
   margin: 10px 0;
+  place-items: center;
+  padding-bottom: 5px;
+}
+.hospitaldetails > span {
+  font-size: 20px;
+  font-weight: 700;
+  
 }
 .navlinks > ul {
   list-style-type: none;
