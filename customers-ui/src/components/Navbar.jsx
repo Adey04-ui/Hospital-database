@@ -12,7 +12,7 @@ function Navbar() {
     <nav>
       <div className='main-navbar'>
         <div className="logo">
-          <img src="/logo1.jpeg" alt="hospital_logo" style={{height: '60px', width: '60px', objectSize: 'fit', objectFit: 'cover', borderRadius: '50%'}} />
+          <img src="/logo1.jpeg" alt="hospital_logo" style={{height: '80px', width: '90px', objectSize: 'fit', objectFit: 'cover',}} />
           <Menu size={23} className='menu' onClick={()=> setOpen(prev => (!prev))} />
         </div>
         <div className={`nav-links ${open && 'active'}`}>
