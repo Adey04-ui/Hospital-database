@@ -56,7 +56,7 @@ function App() {
   return (
     <>
       {/* <Topbar user={user1} /> */}
-      
+
       <Sidebar user={user1} />
       <Routes>
         <Route path="/login" element={<Login user={user1} />} />
@@ -83,7 +83,12 @@ function App() {
       <ToastContainer
         position="top-right"
         autoClose={3000}
-        theme="colored" 
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick={true}
+        pauseOnFocusLoss={true}
+        pauseOnHover={true}
+        theme="colored"
       />
     </>
   )

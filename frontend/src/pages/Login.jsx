@@ -5,6 +5,7 @@ import { setUser } from '../features/userSlice'
 import { useDispatch } from 'react-redux'
 import TextField from "@mui/material/TextField"
 import { ThreeDots } from 'react-loader-spinner'
+import { toast } from 'react-toastify'
 
 function Login({ user }) {
   const [email, setEmail] = useState('')
@@ -34,6 +35,7 @@ function Login({ user }) {
 
     } catch (err) {
       setError(err.message || "Login failed")
+      toast.error(err.message || "Login failed")
     } finally {
       setLoading(false)
     }
