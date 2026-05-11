@@ -10,7 +10,7 @@ $day     = $_GET['day'] ?? 'all';
 $today = date('Y-m-d');
 
 $where = [];
-$order = "ORDER BY a.appointment_date ASC";
+$order = "ORDER BY a.appointment_date DESC";
 
 if ($role === 'doctor') {
     $where[] = "d.user_id = $user_id";
