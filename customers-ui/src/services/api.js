@@ -1,4 +1,4 @@
-const BASE_URL = "hospital-database-production-6422.up.railway.app";
+const BASE_URL = "https://hospital-database-production-6422.up.railway.app";
 
 // const BASE_URL = "http://localhost/project/backend";
 
