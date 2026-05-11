@@ -15,46 +15,44 @@ function Login({ user }) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  
 
   async function handleLogin(e) {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+
+    if (email.trim() == "" || password.trim() == "") {
+      toast.error("Please fill in all fields")
+      setLoading(false)
+      return
+    }
 
     try {
-      const data = await apiFetch('/auth/login.php', {
+      const res = await apiFetch('/auth/login.php', {
         method: "POST",
         body: JSON.stringify({ email, password })
-      });
+      })
 
-      console.log("Login response:", data);
+      console.log("Login response:", res)
 
-      // Check the new response structure
-      if (data.success) {
-        toast.success(data.message || "Login successful!");
-
-        // Save user data
-        localStorage.setItem("user", JSON.stringify(data.user));
-        dispatch(setUser(data.user));
-
-        navigate("/");
-      } else {
-        toast.error(data.message || "Login failed");
-      }
+      localStorage.setItem("user", JSON.stringify(res.user))
+      dispatch(setUser(res.user))
+      
+      navigate("/")
 
     } catch (err) {
-      console.error("Login error:", err);
-      toast.error(err.message || "Something went wrong. Please try again.");
+      toast.error(err.message || "Login failed")
+      console.log(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
 
   return (
-    <div className="full-container" style={{ height: 'calc(100vh - 70px)', display: 'flex', justifyContent: 'center', placeItems: 'center' }}>
-      <form onSubmit={handleLogin} className="book-appointment" style={{ width: '400px', paddingTop: '60px', paddingBottom: '60px' }}>
+    <div className="full-container" style={{height: 'calc(100vh - 70px)', display: 'flex', justifyContent: 'center', placeItems: 'center'}}>
+      <form onSubmit={handleLogin} className="book-appointment" style={{width: '400px', paddingTop: '60px', paddingBottom: '60px'}}>
         <h2>Login</h2>
 
         <TextField

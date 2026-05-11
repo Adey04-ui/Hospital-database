@@ -88,7 +88,6 @@ function App() {
         closeOnClick={true}
         pauseOnFocusLoss={true}
         pauseOnHover={true}
-        theme="colored"
       />
     </>
   )
