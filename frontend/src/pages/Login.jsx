@@ -15,40 +15,47 @@ function Login({ user }) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  
+
 
   async function handleLogin(e) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
     try {
-      const res = await apiFetch('/auth/login.php', {
+      const data = await apiFetch('/auth/login.php', {
         method: "POST",
         body: JSON.stringify({ email, password })
-      })
+      });
 
-      localStorage.setItem("user", JSON.stringify(res.user))
-      dispatch(setUser(res.user))
-      
-      navigate("/")
+      console.log("Login response:", data);
+
+      // Check the new response structure
+      if (data.success) {
+        toast.success(data.message || "Login successful!");
+
+        // Save user data
+        localStorage.setItem("user", JSON.stringify(data.user));
+        dispatch(setUser(data.user));
+
+        navigate("/");
+      } else {
+        toast.error(data.message || "Login failed");
+      }
 
     } catch (err) {
-      setError(err.message || "Login failed")
-      toast.error(err.message || "Login failed")
+      console.error("Login error:", err);
+      toast.error(err.message || "Something went wrong. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
 
   return (
-    <div className="full-container" style={{height: 'calc(100vh - 70px)', display: 'flex', justifyContent: 'center', placeItems: 'center'}}>
-      <form onSubmit={handleLogin} className="book-appointment" style={{width: '400px', paddingTop: '60px', paddingBottom: '60px'}}>
+    <div className="full-container" style={{ height: 'calc(100vh - 70px)', display: 'flex', justifyContent: 'center', placeItems: 'center' }}>
+      <form onSubmit={handleLogin} className="book-appointment" style={{ width: '400px', paddingTop: '60px', paddingBottom: '60px' }}>
         <h2>Login</h2>
-
-        {error && <p style={{ color: "red", textTransform: 'capitalize' }}>{error}</p>}
-
 
         <TextField
           label="Email"

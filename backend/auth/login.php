@@ -14,6 +14,8 @@ $data = json_decode(file_get_contents("php://input"), true);
 $email = mysqli_real_escape_string($conn, $data['email']) ?? "";
 $password = mysqli_real_escape_string($conn, $data["password"]) ?? "";
 
+$response = ["success" => false, "message" => ""];
+
 $query = "
   SELECT users.*, roles.name AS role
   FROM users
@@ -24,15 +26,17 @@ $query = "
 
 $result = mysqli_query($conn, $query);
 
-if ($email == null) {
+if ($email == null || $password == null) {
   http_response_code(401);
-  echo json_encode(["message" => "no email"]);
+  $response['message'] = "Email and password are required";
+    echo json_encode($response);
   exit;
 }
 
 if (mysqli_num_rows($result) === 0) {
   http_response_code(401);
-  echo json_encode(["message" => "Invalid credentials, email doesnt exist '$email'"]);
+  $response['message'] = "Invalid email or password";
+  echo json_encode($response);
   exit;
 }
 
@@ -40,7 +44,8 @@ $user = mysqli_fetch_assoc($result);
 
 if (!password_verify($password, $user['password'])) {
   http_response_code(401);
-  echo json_encode(["message" => "Invalid credentials, wrong password"]);
+  $response['message'] = "Invalid email or password";
+  echo json_encode($response);
   exit;
 }
 
@@ -51,6 +56,7 @@ $_SESSION['user'] = [
 ];
 
 echo json_encode([
+  "success" => true,
   "message" => "Login successful",
   "user" => $_SESSION['user']
 ]);
