@@ -356,6 +356,7 @@ body {
 .scrollableNav {
   margin-top: 20px;
   padding-bottom: 10px;
+  margin-bottom: 5px;
 }
 .scrollableNav::-webkit-scrollbar {
   position: absolute;

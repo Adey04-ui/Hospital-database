@@ -29,7 +29,7 @@ function Sidebar({user}) {
         <img src="/logo.png" alt="hospital_logo" style={{height: '60px', width: '60px'}} />
         <span>MEDICAL CARE</span>
       </div>
-      <div className='scrollableNav' style={{overflowY: 'auto', height: 'calc(100vh - 140px)'}}>
+      <div className='scrollableNav' style={{overflowY: 'auto', height: 'calc(100vh - 170px)'}}>
         <div className="navlinks">
           <ul>
             <li className={path === "/" ? "active" : ""} onClick={()=> path !== "/" && navigate('/')}><Home size={20} /> home</li>

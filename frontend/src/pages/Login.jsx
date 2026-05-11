@@ -42,8 +42,11 @@ function Login({ user }) {
       navigate("/")
 
     } catch (err) {
-      toast.error(err.message || "Login failed")
-      console.log(err)
+      if (err.message == '{"message":"Invalid credentials, wrong password"}') {
+        toast.error("Invalid credentials")
+      } else {
+        toast.error("login error", err.message)
+      }
     } finally {
       setLoading(false)
     }
