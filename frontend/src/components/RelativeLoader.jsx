@@ -4,19 +4,17 @@ import { ThreeDots } from 'react-loader-spinner'
 
 function RelativeLoader() {
   return (
-    <div className="full-container">
-      <div className='loader2'>
+      <div className='loader3'>
         <ThreeDots
           visible={true}
-          height="100"
-          width="100"
+          height="70"
+          width="70"
           color="#030390"
           radius="9"
           ariaLabel="loading"
           wrapperStyle={{}}
           wrapperClass=""
         />
-      </div>
     </div>
   )
 }

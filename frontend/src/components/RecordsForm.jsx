@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { apiFetch } from "../services/api"
 import TextField from "@mui/material/TextField"
 import { ThreeDots } from 'react-loader-spinner'
+import RelativeLoader from "./RelativeLoader"
 
 function RecordsForm({
   patientDetails,
@@ -11,7 +12,9 @@ function RecordsForm({
   setPatientDetails,
   setSelectedAppointment,
   setAppointments,
-  mail
+  mail,
+  fetchingPatient,
+  recordsLoading
 }) {
   const [form, setForm] = useState({
     diagnosis: "",
@@ -90,7 +93,7 @@ function RecordsForm({
   }
 
   return (
-    <div style={{ padding: "30px 25px", height: "calc(100vh - 70px - 80px - 70px)" }}>
+    fetchingPatient || recordsLoading ? <RelativeLoader /> : (<div style={{ padding: "30px 25px", height: "calc(100vh - 70px - 80px - 70px)" }}>
       <span style={{ fontSize: "18px", fontWeight: 500 }}>
         Records form for {patientDetails.full_name}
       </span>
@@ -166,7 +169,7 @@ function RecordsForm({
           </button>
         </div>
       </div>
-    </div>
+    </div>)
   )
 }
 

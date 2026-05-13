@@ -71,7 +71,7 @@ function App() {
         <Route path="/appointments" element={<Appointments user={user1} />} />
         <Route path="/appointment-today" element={<Today user={user1} />} />
         <Route path="/doctors" element={<CreateDoctor user={user1} />} />
-        <Route path="/loader" element={<Unauthorized />} />
+        <Route path="/loader" element={<RelativeLoader />} />
         <Route path="/sidebar" element={<Sidebar user={user1} />} />
         <Route path="/upcoming" element={<Upcoming user={user1} />} />
         <Route path="/reviews" element={<Reviews user={user1} />} />

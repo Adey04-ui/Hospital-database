@@ -4,8 +4,9 @@ import { Check, Search, X } from 'react-feather'
 import Loader from '../components/Loader'
 import RecordsForm from '../components/RecordsForm'
 import { useNavigate } from 'react-router-dom'
+import RelativeLoader from '../components/RelativeLoader'
 
-function Appointments({user}) {
+function Appointments({ user }) {
   const navigate = useNavigate()
   const [appointments, setAppointments] = useState([])
   const [search, setSearch] = useState("")
@@ -16,6 +17,7 @@ function Appointments({user}) {
   const [records, setRecords] = useState([])
   const [recordsLoading, setRecordsLoading] = useState(false)
   const [appId, setAppId] = useState(null)
+  const [fetchingPatient, setFetchingPatient] = useState(false)
   const statusPriority = {
     scheduled: 1,
     completed: 2,
@@ -89,6 +91,7 @@ function Appointments({user}) {
     if (!appointment) return
 
     const fetchPatient = async () => {
+      setFetchingPatient(true)
       try {
         const data = await cachedFetch(
           `/patients/single.php?patient_id=${appointment.patient_id}`
@@ -96,6 +99,8 @@ function Appointments({user}) {
         setPatientDetails(data)
       } catch (err) {
         console.error("Failed to get patient details", err)
+      } finally {
+        setFetchingPatient(false)
       }
     }
 
@@ -127,35 +132,37 @@ function Appointments({user}) {
 
 
   const filteredAppointments = appointments
-  .filter(app => {
-    const query = search.toLowerCase()
+    .filter(app => {
+      const query = search.toLowerCase()
 
-    return (
-      app.patient_name.toLowerCase().includes(query) ||
-      app.patient_id.toString().includes(query)
-    )
-  })
-  .sort((a, b) => {
-    return statusPriority[a.status] - statusPriority[b.status]
-  })
+      return (
+        app.patient_name.toLowerCase().includes(query) ||
+        app.patient_id.toString().includes(query)
+      )
+    })
+    .sort((a, b) => {
+      return statusPriority[a.status] - statusPriority[b.status]
+    })
 
 
 
   const visibleAppointments = selectedAppointment
-  ? filteredAppointments.filter(a => a.id === selectedAppointment)
-  : filteredAppointments
+    ? filteredAppointments.filter(a => a.id === selectedAppointment)
+    : filteredAppointments
 
 
 
-  if(loading) {
-    return <Loader />
+  if (loading) {
+    return (<div className="full-container" style={{height: '100vh'}}>
+      <RelativeLoader />
+    </div>)
   }
-  
+
   return (
-    <div className="full-container"  style={{maxHeight: 'calc(100vh)', paddingTop: '0px',}}>
-      
-      <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', placeItems: 'center', marginBottom: '20px', position: 'fixed', width: 'calc(100% - 380px)', background: '#f6f6f6', paddingTop: '30px', }}>
-        <div style={{fontSize: '19px', padding: '20px 0', fontWeight: 500}}>
+    <div className="full-container" style={{ maxHeight: 'calc(100vh)', paddingTop: '0px', }}>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row', placeItems: 'center', marginBottom: '20px', position: 'fixed', width: 'calc(100% - 380px)', background: '#f6f6f6', paddingTop: '30px', }}>
+        <div style={{ fontSize: '19px', padding: '20px 0', fontWeight: 500 }}>
           {user.role == "doctor" && "All Appointments"}
           {user.role == "admin" && "All Appointments"}
         </div>
@@ -167,22 +174,22 @@ function Appointments({user}) {
             onChange={(e) => setSearch(e.target.value)}
             className="search-input"
           />
-          <label htmlFor="search" style={{position: 'absolute', marginTop: '-33px', marginLeft: '7px'}}>
+          <label htmlFor="search" style={{ position: 'absolute', marginTop: '-33px', marginLeft: '7px' }}>
             <Search size={22} color='#8c8c8c' />
           </label>
         </div>
       </div>
-      <div style={{ display: 'flex'}}>
-        <div style={{ width: selectedAppointment && '50%'}} className={`container2 ${!selectedAppointment && "full"}`}>
+      <div style={{ display: 'flex' }}>
+        <div style={{ width: selectedAppointment && '50%' }} className={`container2 ${!selectedAppointment && "full"}`}>
           <div style={{}} className={`appointment-container ${selectedAppointment && "active"}`}>
             {visibleAppointments.length === 0 && (
-              <div style={{display: 'flex', justifyContent: 'center'}}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 No appointments yet
               </div>
             )}
             {visibleAppointments.map(app => (
-              <div key={app.id} className="queue-card" onClick={()=> {
-                if(user.role == "doctor" && app.status == "scheduled") {
+              <div key={app.id} className="queue-card" onClick={() => {
+                if (user.role == "doctor" && app.status == "scheduled") {
                   setSelectedAppointment(app.id)
                   setAppId(app.id)
                   setdisplayDetails(true)
@@ -197,7 +204,7 @@ function Appointments({user}) {
                 }
               }}>
                 <div>
-                  <span style={{fontSize: '18px', fontWeight: 500}}>
+                  <span style={{ fontSize: '18px', fontWeight: 500 }}>
                     {app.patient_name}
                   </span>
                 </div>
@@ -208,39 +215,39 @@ function Appointments({user}) {
                   </span>
                 </div>
                 {user.role == "admin" && (
-                  <div style={{minWidth: '170px', maxWidth: '180px'}}>
-                    <span style={{fontSize: '18px', fontWeight: 500}}>
+                  <div style={{ minWidth: '170px', maxWidth: '180px' }}>
+                    <span style={{ fontSize: '18px', fontWeight: 500 }}>
                       {app.doctor_name}
                     </span>
                   </div>
                 )}
-                  {app.status === "scheduled" && (
-                    <div className={`actions ${selectedAppointment && "remove"}`} style={{display: selectedAppointment && selectedAppointment !== app.patient_id && "none"}}>
-                      <button onClick={(e) => {
-                        e.stopPropagation()
-                        updateStatus(app.id, "completed", app.patient_name, app.doctor_name, app.appointment_date, app.patient_email)
-                      }} style={{padding: '5px', width: '100px', display: "flex", justifyContent: 'center', fontSize: '14px', color: '#fff', borderRadius: '5px', border: 0, background: '#0b963bfa', placeItems: 'center', gap: '4px', cursor: 'pointer',}}>
-                        <Check size={16} /> Complete
-                      </button>
-                      <button onClick={(e) => {
-                        e.stopPropagation()
-                        updateStatus(app.id, "cancelled", app.patient_name, app.doctor_name, app.appointment_date, app.patient_email)
-                      }
-                      } style={{padding: '5px', width: '100px', display: 'flex', justifyContent: 'center', fontSize: '14px', color: '#fff', borderRadius: '5px', border: 0, background: '#960b0bfa', placeItems: 'center', gap: '4px', cursor: 'pointer'}}>
-                        <X size={16} /> Cancel
-                      </button>
-                    </div>
-                  )}
+                {app.status === "scheduled" && (
+                  <div className={`actions ${selectedAppointment && "remove"}`} style={{ display: selectedAppointment && selectedAppointment !== app.patient_id && "none" }}>
+                    <button onClick={(e) => {
+                      e.stopPropagation()
+                      updateStatus(app.id, "completed", app.patient_name, app.doctor_name, app.appointment_date, app.patient_email)
+                    }} style={{ padding: '5px', width: '100px', display: "flex", justifyContent: 'center', fontSize: '14px', color: '#fff', borderRadius: '5px', border: 0, background: '#0b963bfa', placeItems: 'center', gap: '4px', cursor: 'pointer', }}>
+                      <Check size={16} /> Complete
+                    </button>
+                    <button onClick={(e) => {
+                      e.stopPropagation()
+                      updateStatus(app.id, "cancelled", app.patient_name, app.doctor_name, app.appointment_date, app.patient_email)
+                    }
+                    } style={{ padding: '5px', width: '100px', display: 'flex', justifyContent: 'center', fontSize: '14px', color: '#fff', borderRadius: '5px', border: 0, background: '#960b0bfa', placeItems: 'center', gap: '4px', cursor: 'pointer' }}>
+                      <X size={16} /> Cancel
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
-          <div style={{ width: '100%', marginTop: '30px', flex: 1,}}>
-            <div style={{padding: '0 15px',}}>
+          <div style={{ width: '100%', marginTop: '30px', flex: 1, }}>
+            <div style={{ padding: '0 15px', }}>
               <div className={`patientDetails ${displayDetails && "active"}`}>
-                {displayDetails && patientDetails && (
-                  <div style={{padding: '20px 25px',}}>
-                    <span style={{fontSize: '15px', fontWeight: 500, textTransform: 'capitalize'}}>patient details</span>
-                    <div style={{display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '5px', marginBottom: '15px'}}>
+                {fetchingPatient || recordsLoading ? <RelativeLoader /> : displayDetails && patientDetails && (
+                  <div style={{ padding: '20px 25px', }}>
+                    <span style={{ fontSize: '15px', fontWeight: 500, textTransform: 'capitalize' }}>patient details</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '5px', marginBottom: '15px' }}>
                       <span>
                         Patient Id: {patientDetails.id}
                       </span>
@@ -255,12 +262,12 @@ function Appointments({user}) {
                       </span>
                     </div>
                     <div className="patientRecords">
-                      <span style={{fontSize: '15px', fontWeight: 500, textTransform: 'capitalize'}}>
+                      <span style={{ fontSize: '15px', fontWeight: 500, textTransform: 'capitalize' }}>
                         previuous records
                       </span>
-                      <div style={{display: 'flex', flexDirection: 'column', gap: '7px'}}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
                         {recordsLoading && (
-                          <div style={{display: 'flex', justifyContent: 'center'}}>
+                          <div style={{ display: 'flex', justifyContent: 'center' }}>
                             Loading records ...
                           </div>
                         )}
@@ -268,14 +275,14 @@ function Appointments({user}) {
                           <span>No previous records with you yet</span>
                         )}
                         {records.map((record, index) => (
-                          <div key={index} style={{marginTop: '7px', display: 'flex', justifyContent: 'space-between', placeItems: 'center', alignI: 'center'}}>
+                          <div key={index} style={{ marginTop: '7px', display: 'flex', justifyContent: 'space-between', placeItems: 'center', alignI: 'center' }}>
                             <span>
                               <b>Diagnosis:</b> {" "} {record.diagnosis}
                             </span>
-                            <span style={{fontSize: '13px'}}>
+                            <span style={{ fontSize: '13px' }}>
                               {record.created_at}
                             </span>
-                            <span style={{cursor: 'pointer', textDecoration: 'underline', fontSize: '14px', color: '#030390'}} onClick={()=> navigate(`/records/${record.id}`)}>
+                            <span style={{ cursor: 'pointer', textDecoration: 'underline', fontSize: '14px', color: '#030390' }} onClick={() => navigate(`/records/${record.id}`)}>
                               See more details
                             </span>
                           </div>
@@ -284,15 +291,15 @@ function Appointments({user}) {
                     </div>
                   </div>
                 )}
-                
+
               </div>
             </div>
           </div>
         </div>
         <div className={`recordsform ${selectedAppointment && 'active'}`}>
-          <div style={{ boxShadow: '0px 0px 6px #4d4d4d4a',width: '100%', borderRadius: '14px'}}>
+          <div style={{ boxShadow: '0px 0px 6px #4d4d4d4a', width: '100%', borderRadius: '14px' }}>
             {selectedAppointment && patientDetails && (
-              <RecordsForm patientDetails={patientDetails} appId={appId} setSelectedAppointment={setSelectedAppointment} setPatientDetails={setPatientDetails} setdisplayDetails={setdisplayDetails} setAppId={setAppId} setAppointments={setAppointments} mail={mail} />
+              <RecordsForm patientDetails={patientDetails} appId={appId} setSelectedAppointment={setSelectedAppointment} setPatientDetails={setPatientDetails} setdisplayDetails={setdisplayDetails} setAppId={setAppId} setAppointments={setAppointments} mail={mail} fetchingPatient={fetchingPatient} recordsLoading={recordsLoading} />
             )}
           </div>
         </div>
